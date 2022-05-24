@@ -106,6 +106,11 @@ def prepare_unencrypted_layout(
     device, esp_size='+550M', boot_size='+550M', swap_size='+20G'
 ):
     """prepare layout for unencrypted system"""
+    esp_partnum = '1'
+    xbootldr_partnum = '2'
+    swap_partnum = '3'
+    root_partnum = '4'
+
     wipe_device(device)
 
     create_partition(device, 'ef00', 'esp', esp_size)
@@ -115,10 +120,10 @@ def prepare_unencrypted_layout(
 
     # set partition name based on device's name
     partition_prefix = device + 'p' if device.startswith('nvme') else device
-    esp_part_name = partition_prefix + '1'
-    xbootldr_part_name = partition_prefix + '2'
-    swap_part_name = partition_prefix + '3'
-    root_part_name = partition_prefix + '4'
+    esp_part_name = partition_prefix + esp_partnum
+    xbootldr_part_name = partition_prefix + xbootldr_partnum
+    swap_part_name = partition_prefix + swap_partnum
+    root_part_name = partition_prefix + root_partnum
 
     wipe_partition(esp_part_name)
     wipe_partition(xbootldr_part_name)
