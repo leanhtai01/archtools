@@ -24,7 +24,7 @@ def create_partition(device, part_type, gpt_name, part_size):
         'sgdisk',
         '-n', f'0:0:{part_size}',
         '-t', f'0:{part_type}',
-        '-c', f'0:"{gpt_name}"',
+        '-c', f'0:{gpt_name}',
         f'/dev/{device}'
     ])
 
@@ -32,6 +32,11 @@ def create_partition(device, part_type, gpt_name, part_size):
 def format_fat32(partition):
     """format a partition to FAT32"""
     subprocess.run(['mkfs.vfat', '-F32', f'/dev/{partition}'])
+
+
+def format_ntfs(partition):
+    """format a partition to NTFS"""
+    subprocess.run(['mkfs.ntfs', '-f', f'/dev/{partition}'])
 
 
 def format_ext4(partition):
