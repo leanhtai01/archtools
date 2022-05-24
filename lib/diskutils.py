@@ -44,6 +44,13 @@ def format_ext4(partition):
     subprocess.run(['mkfs.ext4', f'/dev/{partition}'])
 
 
+def set_partition_flag_state(device, partnum, flag, state):
+    """change the state of the flag on partition using parted"""
+    subprocess.run([
+        'parted', f'/dev/{device}', 'set', f'{partnum}', f'{flag}', f'{state}'
+    ])
+
+
 def make_swap(partition):
     """make swap partition"""
     subprocess.run(['mkswap', f'/dev/{partition}'])
