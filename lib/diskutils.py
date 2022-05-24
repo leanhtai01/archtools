@@ -62,6 +62,14 @@ def mount_partition(partition, mount_point):
     subprocess.run(['mount', f'/dev/{partition}', mount_point])
 
 
+def shrink_partition(device, partnum, space_to_shrink, unit='GiB'):
+    """shrink partition using parted"""
+    info = f'{partnum}\n-{space_to_shrink}{unit}\nYes\n'
+    subprocess.run([
+        'parted', f'/dev/{device}', 'resizepart', '---pretend-input-tty'
+    ], input=info.encode())
+
+
 def prepare_unencrypted_layout(
     device, esp_size='+550M', boot_size='+550M', swap_size='+20G'
 ):
