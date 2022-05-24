@@ -150,6 +150,52 @@ def prepare_unencrypted_layout(
     }
 
 
-def prepare_unencrypted_dual_boot_windows_layout():
+def prepare_unencrypted_dual_boot_windows_layout(
+    device, boot_size='+550M', swap_size='+20G', root_size='+200G'
+):
     """prepare layout for unencrypted dual boot with Windows system"""
-    pass
+    esp_partnum = '1'
+    msftdata_partnum = '3'
+    xbootldr_partnum = '5'
+    swap_partnum = '6'
+    root_partnum = '7'
+
+    # calculate and make space for required partitions
+    space_to_shrink = str(
+        int(boot_size[1:-1]) +
+        int(swap_size[1:-1]) * 1024 +
+        int(root_size[1:-1]) * 1024
+    )
+    shrink_partition(device, msftdata_partnum, space_to_shrink, 'MiB')
+
+    create_partition(device, 'ea00', 'XBOOTLDR', boot_size)
+    create_partition(device, '8200', 'swap', swap_size)
+    create_partition(device, '8304', 'root', '0')
+
+    # set partition name based on device's name
+    partition_prefix = device + 'p' if device.startswith('nvme') else device
+    esp_part_name = partition_prefix + esp_partnum
+    xbootldr_part_name = partition_prefix + xbootldr_partnum
+    swap_part_name = partition_prefix + swap_partnum
+    root_part_name = partition_prefix + root_partnum
+
+    wipe_partition(xbootldr_part_name)
+    wipe_partition(swap_part_name)
+    wipe_partition(root_part_name)
+
+    format_fat32(xbootldr_part_name)
+    make_swap(swap_part_name)
+    format_ext4(root_part_name)
+
+    mount_partition(root_part_name, '/mnt')  # must be mount first
+    pathlib.Path('/mnt/efi').mkdir(exist_ok=True)
+    pathlib.Path('/mnt/boot').mkdir(exist_ok=True)
+    mount_partition(esp_part_name, '/mnt/efi')
+    mount_partition(xbootldr_part_name, '/mnt/boot')
+
+    return {
+        'esp_part_name': esp_part_name,
+        'xbootldr_part_name': xbootldr_part_name,
+        'swap_part_name': swap_part_name,
+        'root_part_name': root_part_name
+    }
