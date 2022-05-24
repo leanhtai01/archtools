@@ -1,0 +1,5 @@
+libreoffice-fresh
+calibre
+kchmviewer
+foliate
+okular

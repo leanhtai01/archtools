@@ -1,0 +1,4 @@
+git
+dia
+github-cli
+kdiff3

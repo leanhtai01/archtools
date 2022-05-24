@@ -1,0 +1,14 @@
+# Visual Studio Code
+.log/
+
+# Experiment directory
+tmp/
+
+# Experiment file
+tmp.py
+
+# Private settings.json
+settings.json
+
+# Byte-compiled / optimized
+__pycache__/

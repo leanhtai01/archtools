@@ -1,0 +1,13 @@
+vlc
+gst-libav
+gst-plugins-good
+gst-plugins-ugly
+gst-plugins-bad
+obs-studio
+inkscape
+gimp
+blender
+kdenlive
+frei0r-plugins
+handbrake
+handbrake-cli
