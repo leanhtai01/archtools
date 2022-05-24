@@ -69,14 +69,26 @@ class ArchInstall:
 
     def prepare_disk(self):
         """prepare disk for installation"""
-        part_name_dict = diskutils.prepare_unencrypted_layout(
-            self.settings['device_to_install'],
-            self.settings['size_of_efi_partition'],
-            self.settings['size_of_boot_partition'],
-            self.settings['size_of_swap_partition']
-        )
+        device = self.settings['device_to_install']
+        esp_size = self.settings['size_of_efi_partition']
+        boot_size = self.settings['size_of_boot_partition']
+        swap_size = self.settings['size_of_swap_partition']
+        root_size = self.settings['size_of_root_partition']
+        layout = self.settings['partition_layout']
+        is_dual_boot = self.settings['is_dual_boot_windows']
 
-        self.settings.update(part_name_dict)
+        match layout:
+            case 'unencrypted':
+                if is_dual_boot:
+                    partnames = diskutils.prepare_unencrypted_dual_boot_layout(
+                        device, boot_size, swap_size, root_size
+                    )
+                else:
+                    partnames = diskutils.prepare_unencrypted_layout(
+                        device, esp_size, boot_size, swap_size
+                    )
+
+        self.settings.update(partnames)
 
         # save new info to settings.json
         with open('settings.json', 'w') as writer:

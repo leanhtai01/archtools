@@ -150,7 +150,7 @@ def prepare_unencrypted_layout(
     }
 
 
-def prepare_unencrypted_dual_boot_windows_layout(
+def prepare_unencrypted_dual_boot_layout(
     device, boot_size='+550M', swap_size='+20G', root_size='+200G'
 ):
     """prepare layout for unencrypted dual boot with Windows system"""
