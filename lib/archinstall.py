@@ -615,6 +615,11 @@ class ArchInstall:
                 'flatpak', 'install', package_id, '-y'
             ])
 
+    def install_flatpak_packages_from_file(self, file_name):
+        """install flatpak packages from file"""
+        package_ids = self.get_packages_from_file(file_name)
+        self.install_flatpak_packages(package_ids)
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
