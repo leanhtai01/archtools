@@ -199,3 +199,92 @@ def prepare_unencrypted_dual_boot_layout(
         'swap_part_name': swap_part_name,
         'root_part_name': root_part_name
     }
+
+
+def create_luks_container(partition, password: str):
+    """create luks container"""
+    subprocess.run([
+        'cryptsetup', 'luksFormat', '--type', 'luks2', f'/dev/{partition}', '-'
+    ], input=password.encode())
+
+
+def open_luks_container(partition, luks_mapper_name, password: str):
+    """open luks container"""
+    subprocess.run([
+        'cryptsetup', 'open', f'/dev/{partition}', luks_mapper_name, '-'
+    ], input=password.encode())
+
+
+def prepare_logical_volumes_on_luks(
+    luks_mapper_name, vg_name, lv_swap_name, swap_size, lv_root_name
+):
+    """prepare logical volumes (root, swap)"""
+    subprocess.run(['pvcreate', f'/dev/mapper/{luks_mapper_name}'])
+    subprocess.run(['vgcreate', vg_name, f'/dev/mapper/{luks_mapper_name}'])
+    subprocess.run([
+        'lvcreate', '-L', f'{swap_size}G', vg_name, '-n', lv_swap_name
+    ])
+    subprocess.run([
+        'lvcreate', '-l', '+100%FREE', vg_name, '-n', lv_root_name
+    ])
+
+
+def prepare_encrypted_layout(
+    device, password, esp_size='+550M', boot_size='+550M', swap_size='+20G'
+):
+    """prepare layout for encrypted system"""
+    esp_partnum = '1'
+    xbootldr_partnum = '2'
+    luks_encrypted_partnum = '3'
+
+    luks_mapper_name = 'cryptlvm'
+    vg_name = 'vg_system'
+    lv_swap_name = 'lv_swap'
+    lv_root_name = 'lv_root'
+
+    wipe_device(device)
+
+    create_partition(device, 'ef00', 'esp', esp_size)
+    create_partition(device, 'ea00', 'XBOOTLDR', boot_size)
+    create_partition(device, '8309', 'luks_encrypted', '0')
+
+    # set partition name based on device's name
+    partition_prefix = device + 'p' if device.startswith('nvme') else device
+    esp_part_name = partition_prefix + esp_partnum
+    xbootldr_part_name = partition_prefix + xbootldr_partnum
+    luks_encrypted_part_name = partition_prefix + luks_encrypted_partnum
+
+    wipe_partition(esp_part_name)
+    wipe_partition(xbootldr_part_name)
+    wipe_partition(luks_encrypted_part_name)
+
+    # make LUKS container and logical volumes
+    create_luks_container(luks_encrypted_part_name, password)
+    open_luks_container(luks_encrypted_part_name, luks_mapper_name, password)
+    wipe_partition(f'mapper/{luks_mapper_name}')
+    prepare_logical_volumes_on_luks(
+        luks_mapper_name, vg_name, lv_swap_name, swap_size, lv_root_name
+    )
+
+    # format_partitions
+    format_fat32(esp_part_name)
+    format_fat32(xbootldr_part_name)
+    make_swap(f'{vg_name}/{lv_swap_name}')
+    format_ext4(f'{vg_name}/{lv_root_name}')
+
+    # mount the filesystems
+    mount_partition(f'{vg_name}/{lv_root_name}', '/mnt')  # must be mount first
+    pathlib.Path('/mnt/efi').mkdir(exist_ok=True)
+    pathlib.Path('/mnt/boot').mkdir(exist_ok=True)
+    mount_partition(esp_part_name, '/mnt/efi')
+    mount_partition(xbootldr_part_name, '/mnt/boot')
+
+    return {
+        'esp_part_name': esp_part_name,
+        'xbootldr_part_name': xbootldr_part_name,
+        'luks_encrypted_part_name': luks_encrypted_part_name,
+        'luks_mapper_name': luks_mapper_name,
+        'vg_name': vg_name,
+        'lv_swap_name': lv_swap_name,
+        'lv_root_name': lv_root_name
+    }
