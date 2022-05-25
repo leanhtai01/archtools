@@ -604,6 +604,17 @@ class ArchInstall:
         packages = self.get_packages_from_file(file_name)
         self.install_aur_packages(packages)
 
+    def install_flatpak_packages(self, package_ids):
+        """install packages flatpak"""
+        self.install_packages(['flatpak'])
+
+        subprocess.run(['flatpak', 'update', '-y'])
+
+        for package_id in package_ids:
+            subprocess.run([
+                'flatpak', 'install', package_id, '-y'
+            ])
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
