@@ -13,6 +13,7 @@ class ArchInstall:
     def __init__(self, setting_file_name, live_system=True):
         self.load_settings(setting_file_name)
         self.home_dir = f'/home/{self.settings["username"]}'
+        self.partition_layout = self.settings['partition_layout']
 
         if live_system:
             self.cmd_prefix = ['arch-chroot', '/mnt']
@@ -304,18 +305,38 @@ class ArchInstall:
             loader_conf_file.write('console-mode keep\n')
             loader_conf_file.write('editor no\n')
 
-        root_uuid = self.get_uuid(self.settings['root_part_name'])
-        swap_uuid = self.get_uuid(self.settings['swap_part_name'])
+        match self.partition_layout:
+            case 'unencrypted':
+                root_uuid = self.get_uuid(self.settings['root_part_name'])
+                swap_uuid = self.get_uuid(self.settings['swap_part_name'])
+            case 'encrypted':
+                luks_part_name = self.settings['luks_encrypted_part_name']
+                mapper_name = self.settings['luks_mapper_name']
+                vg_name = self.settings['vg_name']
+                lv_swap_name = self.settings['lv_swap_name']
+                lv_root_name = self.settings['lv_root_name']
+
+                luks_uuid = self.get_uuid(luks_part_name)
+                lv_swap_uuid = self.get_uuid(f'{vg_name}/{lv_swap_name}')
+
         archlinux_conf_path = '/mnt/boot/loader/entries/archlinux.conf'
         with open(archlinux_conf_path, 'w') as archlinux_conf_file:
             archlinux_conf_file.write('title Arch Linux\n')
             archlinux_conf_file.write('linux /vmlinuz-linux\n')
             archlinux_conf_file.write('initrd /intel-ucode.img\n')
             archlinux_conf_file.write('initrd /initramfs-linux.img\n')
-            archlinux_conf_file.write(
-                f'options root=UUID={root_uuid} ' +
-                f'resume=UUID={swap_uuid} rw\n'
-            )
+            match self.partition_layout:
+                case 'unencrypted':
+                    archlinux_conf_file.write(
+                        f'options root=UUID={root_uuid} ' +
+                        f'resume=UUID={swap_uuid} rw\n'
+                    )
+                case 'encrypted':
+                    archlinux_conf_file.write(
+                        f'options cryptdevice=UUID={luks_uuid}:{mapper_name}' +
+                        f' root=/dev/{vg_name}/{lv_root_name} ' +
+                        f'resume=UUID={lv_swap_uuid} rw\n'
+                    )
 
     def get_packages_from_file(self, file_path):
         """get packages from file"""
@@ -565,5 +586,9 @@ class ArchInstall:
         self.add_normal_user()
         self.allow_user_in_wheel_group_execute_any_command()
         self.increase_sudo_timestamp_timeout()
+
+        if self.partition_layout == 'encrypted':
+            self.configure_mkinitcpio_for_encrypted_system()
+
         self.configure_mkinitcpio_for_hibernation()
         self.configure_systemd_bootloader()
