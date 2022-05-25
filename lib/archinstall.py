@@ -238,6 +238,27 @@ class ArchInstall:
             writer.write('\n## Set sudo timestamp timeout\n')
             writer.write('Defaults timestamp_timeout=20\n')
 
+    def configure_mkinitcpio_for_encrypted_system(self):
+        """configure mkinitcpio for encrypted system"""
+        # make sure lvm2 is installed
+        self.install_packages(['lvm2'])
+
+        mkinitcpio_config_file = '/mnt/etc/mkinitcpio.conf'
+
+        fileutils.backup(mkinitcpio_config_file)
+
+        fileutils.multiple_replace_in_line(
+            mkinitcpio_config_file,
+            rf'^{re.escape("HOOKS")}.*',
+            [
+                (' keyboard', ''),
+                ('autodetect', 'autodetect keyboard keymap'),
+                ('block', 'block encrypt lvm2')
+            ]
+        )
+
+        self.build_initramfs_image_mkinitcpio()
+
     def configure_mkinitcpio_for_hibernation(self):
         """configure mkinitcpio for hibernation"""
         mkinitcpio_config_path = '/mnt/etc/mkinitcpio.conf'
