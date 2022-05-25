@@ -250,6 +250,10 @@ class ArchInstall:
             [('filesystems', 'filesystems resume')]
         )
 
+        self.build_initramfs_image_mkinitcpio()
+
+    def build_initramfs_image_mkinitcpio(self):
+        """build initramfs image(s) according to specified preset"""
         subprocess.run(self.cmd_prefix + [
             'mkinitcpio', '-p', 'linux'
         ])
