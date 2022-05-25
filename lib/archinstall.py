@@ -238,8 +238,8 @@ class ArchInstall:
             writer.write('\n## Set sudo timestamp timeout\n')
             writer.write('Defaults timestamp_timeout=20\n')
 
-    def setup_hibernation(self):
-        """setup hibernation"""
+    def configure_mkinitcpio_for_hibernation(self):
+        """configure mkinitcpio for hibernation"""
         mkinitcpio_config_path = '/mnt/etc/mkinitcpio.conf'
 
         fileutils.backup(mkinitcpio_config_path)
@@ -544,5 +544,5 @@ class ArchInstall:
         self.add_normal_user()
         self.allow_user_in_wheel_group_execute_any_command()
         self.increase_sudo_timestamp_timeout()
-        self.setup_hibernation()
+        self.configure_mkinitcpio_for_hibernation()
         self.configure_systemd_bootloader()
