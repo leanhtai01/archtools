@@ -2,6 +2,7 @@
 # email: leanhtai01@gmail.com
 # gitHub: https://github.com/leanhtai01
 import json
+import os
 import pathlib
 import re
 import subprocess
@@ -571,6 +572,24 @@ class ArchInstall:
         subprocess.run([
             'git', 'config', '--global', 'credential.helper', 'store'
         ])
+
+    def install_yay_aur_helper(self):
+        """install Yay AUR helper"""
+        subprocess.run([
+            'curl', '-LJo', '/tmp/yay.tar.gz',
+            'https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz'
+        ])
+
+        # save current working directory
+        original_working_dir = os.getcwd()
+
+        os.chdir('/tmp')
+        subprocess.run(['tar', '-xvf', 'yay.tar.gz'])
+
+        os.chdir('/tmp/yay')
+        subprocess.run(['makepkg', '-sri', '--noconfirm'])
+
+        os.chdir(original_working_dir)
 
     def install_base_system(self):
         """install base system"""
