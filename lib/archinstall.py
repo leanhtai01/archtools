@@ -591,6 +591,14 @@ class ArchInstall:
 
         os.chdir(original_working_dir)
 
+    def install_packages_from_aur(self, packages):
+        """install packages from AUR"""
+        # make sure Yay is installed
+        if not self.is_package_installed('yay'):
+            self.install_yay_aur_helper()
+
+        subprocess.run(['yay', '-Syu', '--noconfirm'] + packages)
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
