@@ -288,3 +288,68 @@ def prepare_encrypted_layout(
         'lv_swap_name': lv_swap_name,
         'lv_root_name': lv_root_name
     }
+
+
+def prepare_encrypted_dual_boot_layout(
+    device, password, boot_size='+550M', swap_size='+20G', root_size='+200G'
+):
+    """prepare layout for encrypted dual boot with Windows system"""
+    esp_partnum = '1'
+    msftdata_partnum = '3'
+    xbootldr_partnum = '5'
+    luks_encrypted_partnum = '6'
+
+    luks_mapper_name = 'cryptlvm'
+    vg_name = 'vg_system'
+    lv_swap_name = 'lv_swap'
+    lv_root_name = 'lv_root'
+
+    # calculate and make space for required partitions
+    space_to_shrink = str(
+        int(boot_size[1:-1]) +
+        int(swap_size[1:-1]) * 1024 +
+        int(root_size[1:-1]) * 1024
+    )
+    shrink_partition(device, msftdata_partnum, space_to_shrink, 'MiB')
+
+    create_partition(device, 'ea00', 'XBOOTLDR', boot_size)
+    create_partition(device, '8309', 'luks_encrypted', '0')
+
+    # set partition name based on device's name
+    partition_prefix = device + 'p' if device.startswith('nvme') else device
+    esp_part_name = partition_prefix + esp_partnum
+    xbootldr_part_name = partition_prefix + xbootldr_partnum
+    luks_encrypted_part_name = partition_prefix + luks_encrypted_partnum
+
+    wipe_partition(xbootldr_part_name)
+    wipe_partition(luks_encrypted_part_name)
+
+    # make LUKS container and logical volumes
+    create_luks_container(luks_encrypted_part_name, password)
+    open_luks_container(luks_encrypted_part_name, luks_mapper_name, password)
+    wipe_partition(f'mapper/{luks_mapper_name}')
+    prepare_logical_volumes_on_luks(
+        luks_mapper_name, vg_name, lv_swap_name, swap_size, lv_root_name
+    )
+
+    # format_partitions
+    format_fat32(xbootldr_part_name)
+    make_swap(f'{vg_name}/{lv_swap_name}')
+    format_ext4(f'{vg_name}/{lv_root_name}')
+
+    # mount the filesystems
+    mount_partition(f'{vg_name}/{lv_root_name}', '/mnt')  # must be mount first
+    pathlib.Path('/mnt/efi').mkdir(exist_ok=True)
+    pathlib.Path('/mnt/boot').mkdir(exist_ok=True)
+    mount_partition(esp_part_name, '/mnt/efi')
+    mount_partition(xbootldr_part_name, '/mnt/boot')
+
+    return {
+        'esp_part_name': esp_part_name,
+        'xbootldr_part_name': xbootldr_part_name,
+        'luks_encrypted_part_name': luks_encrypted_part_name,
+        'luks_mapper_name': luks_mapper_name,
+        'vg_name': vg_name,
+        'lv_swap_name': lv_swap_name,
+        'lv_root_name': lv_root_name
+    }
