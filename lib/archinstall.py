@@ -599,6 +599,11 @@ class ArchInstall:
 
         subprocess.run(['yay', '-Syu', '--noconfirm'] + packages)
 
+    def install_aur_packages_from_file(self, file_name):
+        """install AUR packages from file contain packages list"""
+        packages = self.get_packages_from_file(file_name)
+        self.install_aur_packages(packages)
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
