@@ -18,8 +18,10 @@ class ArchInstall:
 
         if live_system:
             self.cmd_prefix = ['arch-chroot', '/mnt']
+            self.path_prefix = '/mnt'
         else:
             self.cmd_prefix = ['sudo']
+            self.path_prefix = ''
 
     def load_settings(self, file_name):
         """load setting from json file"""
@@ -623,6 +625,39 @@ class ArchInstall:
         """install flatpak packages from file"""
         package_ids = self.get_packages_from_file(file_name)
         self.install_flatpak_packages(package_ids)
+
+    def install_kvm(self):
+        """install KVM"""
+        self.install_packages_from_file('packages_info/kvm.txt')
+
+        subprocess.run(self.cmd_prefix + [
+            'systemctl', 'enable', 'libvirtd'
+        ])
+
+        libvirtd_conf_path = self.path_prefix + '/etc/libvirt/libvirtd.conf'
+        fileutils.backup(libvirtd_conf_path)
+
+        fileutils.multiple_replace_in_line(
+            libvirtd_conf_path,
+            rf'^{re.escape("#unix_sock_group = ")}.*',
+            [('#', '')]
+        )
+
+        fileutils.multiple_replace_in_line(
+            libvirtd_conf_path,
+            rf'^{re.escape("#unix_sock_rw_perms = ")}.*',
+            [('#', '')]
+        )
+
+        username = self.settings['username']
+
+        subprocess.run(self.cmd_prefix + [
+            'gpasswd', '-a', username, 'libvirt'
+        ])
+
+        subprocess.run(self.cmd_prefix + [
+            'gpasswd', '-a', username, 'kvm'
+        ])
 
     def install_base_system(self):
         """install base system"""
