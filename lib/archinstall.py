@@ -591,7 +591,7 @@ class ArchInstall:
 
         os.chdir(original_working_dir)
 
-    def install_packages_from_aur(self, packages):
+    def install_aur_packages(self, packages):
         """install packages from AUR"""
         # make sure Yay is installed
         if not self.is_package_installed('yay'):
