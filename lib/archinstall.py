@@ -76,6 +76,7 @@ class ArchInstall:
         root_size = self.settings['size_of_root_partition']
         layout = self.settings['partition_layout']
         is_dual_boot = self.settings['is_dual_boot_windows']
+        password = self.settings['system_partition_password']
 
         match layout:
             case 'unencrypted':
@@ -86,6 +87,13 @@ class ArchInstall:
                 else:
                     partnames = diskutils.prepare_unencrypted_layout(
                         device, esp_size, boot_size, swap_size
+                    )
+            case 'encrypted':
+                if is_dual_boot:
+                    pass
+                else:
+                    partnames = diskutils.prepare_encrypted_layout(
+                        device, password, esp_size, boot_size, swap_size
                     )
 
         self.settings.update(partnames)
