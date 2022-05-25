@@ -91,7 +91,9 @@ class ArchInstall:
                     )
             case 'encrypted':
                 if is_dual_boot:
-                    pass
+                    partnames = diskutils.prepare_encrypted_dual_boot_layout(
+                        device, password, boot_size, swap_size, root_size
+                    )
                 else:
                     partnames = diskutils.prepare_encrypted_layout(
                         device, password, esp_size, boot_size, swap_size
