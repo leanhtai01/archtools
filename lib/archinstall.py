@@ -452,6 +452,23 @@ class ArchInstall:
             'gpasswd', '-a', f'{self.settings["username"]}', 'vboxsf'
         ])
 
+    def get_gnome_custom_shortcut_indexes(self):
+        """get GNOME custom shortcut indexes"""
+        SCHEMA_TO_LIST = 'org.gnome.settings-daemon.plugins.media-keys'
+
+        output = subprocess.run([
+            'gsettings', 'get', f'{SCHEMA_TO_LIST}', 'custom-keybindings'
+        ], capture_output=True)
+
+        path_list = output.stdout.decode()
+
+        if path_list.strip() == '@as []':
+            indexes = []
+        else:
+            indexes = re.findall(r'\d+', path_list)
+
+        return indexes
+
     def add_gnome_shortcut(self, name, key_binding, command):
         """add a GNOME shortcut"""
         SCHEMA_TO_LIST = 'org.gnome.settings-daemon.plugins.media-keys'
@@ -508,6 +525,79 @@ class ArchInstall:
             'gsettings', 'set', f'{SCHEMA_TO_LIST}',
             'custom-keybindings', f'{path_list}'
         ])
+
+    def clear_all_gnome_custom_shortcuts(self):
+        """clear all GNOME custom shortcuts"""
+        SCHEMA_TO_LIST = 'org.gnome.settings-daemon.plugins.media-keys'
+        SCHEMA_TO_ITEM = (
+            'org.gnome.settings-daemon.plugins.media-keys.custom-keybinding'
+        )
+        PATH_TO_CUSTOM_KEY = (
+            '/org/gnome/settings-daemon/plugins/media-keys'
+            '/custom-keybindings/custom'
+        )
+
+        indexes = self.get_gnome_custom_shortcut_indexes()
+
+        for index in indexes:
+            subprocess.run([
+                'gsettings', 'reset',
+                f'{SCHEMA_TO_ITEM}:{PATH_TO_CUSTOM_KEY}{index}/',
+                'name'
+            ])
+
+            subprocess.run([
+                'gsettings', 'reset',
+                f'{SCHEMA_TO_ITEM}:{PATH_TO_CUSTOM_KEY}{index}/',
+                'binding'
+            ])
+
+            subprocess.run([
+                'gsettings', 'reset',
+                f'{SCHEMA_TO_ITEM}:{PATH_TO_CUSTOM_KEY}{index}/',
+                'command'
+            ])
+
+        subprocess.run([
+            'gsettings', 'reset', f'{SCHEMA_TO_LIST}',
+            'custom-keybindings'
+        ])
+
+    def make_gnome_shortcuts(self):
+        """make some GNOME shortcuts for frequently program"""
+        self.clear_all_gnome_custom_shortcuts()
+
+        if self.is_package_installed('nautilus'):
+            self.add_gnome_shortcut(
+                'Nautilus', '<Super>e', 'nautilus'
+            )
+
+        if self.is_package_installed('gnome-terminal'):
+            self.add_gnome_shortcut(
+                'GNOME Terminal', '<Primary><Alt>t', 'gnome-terminal'
+            )
+
+        if self.is_package_installed('emacs'):
+            self.add_gnome_shortcut(
+                'Emacs', '<Primary><Alt>e', 'emacs'
+            )
+
+        if self.is_package_installed('doublecmd-qt5'):
+            self.add_gnome_shortcut(
+                'Double Commander', '<Primary><Alt>k', 'doublecmd'
+            )
+
+        if self.is_package_installed('google-chrome'):
+            self.add_gnome_shortcut(
+                'Google Chrome', '<Primary><Alt>c', 'google-chrome-stable'
+            )
+
+        if self.is_package_installed('firefox-developer-edition'):
+            self.add_gnome_shortcut(
+                'Firefox Developer Edition',
+                '<Primary><Alt>f',
+                'firefox-developer-edition'
+            )
 
     def is_package_installed(self, package_name):
         """check whether package is installed"""
