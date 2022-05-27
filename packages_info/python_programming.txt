@@ -1,0 +1,9 @@
+python
+jupyterlab
+python-nltk
+python-pandas
+python-pip
+python-numpy
+python-scikit-learn
+tk
+python-matplotlib
