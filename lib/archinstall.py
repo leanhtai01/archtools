@@ -55,9 +55,9 @@ class ArchInstall:
         """connect to wifi using iwd"""
         subprocess.run([
             'iwctl',
-            f'--passphrase={self.setting["wifi_password"]}',
+            f'--passphrase={self.settings["wifi_password"]}',
             'station', f'{self.settings["wifi_device"]}',
-            'connect_hidden' if self.settings["is_hidden_wifi"] else 'connect',
+            'connect-hidden' if self.settings["is_hidden_wifi"] else 'connect',
             f'{self.settings["wifi_ssid"]}'
         ])
 
