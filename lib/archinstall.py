@@ -426,6 +426,10 @@ class ArchInstall:
         """install dotnet programming"""
         self.install_packages_from_file('packages_info/dotnet_programming.txt')
 
+    def install_python_programming(self):
+        """install python programming"""
+        self.install_packages_from_file('packages_info/python_programming.txt')
+
     def install_javascript_programming(self):
         """install javascript programming"""
         self.install_packages_from_file(
