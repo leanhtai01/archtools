@@ -480,21 +480,8 @@ class ArchInstall:
             '/custom-keybindings/custom'
         )
 
-        # from existing custom shortcuts, determine index of new shortcut
-        cmd_result = subprocess.run([
-            'gsettings', 'get', f'{SCHEMA_TO_LIST}', 'custom-keybindings'
-        ], capture_output=True)
-
-        # get custom shortcuts path list in string
-        path_list = cmd_result.stdout.decode()
-
-        if path_list.strip() == '@as []':  # no custom shorcut
-            index = 0
-        else:
-            # get a list of number represent index of custom shortcuts
-            index_list = re.findall(r'\d+', path_list)
-
-            index = len(index_list)
+        path_list, indexes = self.get_gnome_custom_shortcut_indexes()
+        index = len(indexes)
 
         subprocess.run([
             'gsettings', 'set',
