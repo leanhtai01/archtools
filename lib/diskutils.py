@@ -150,6 +150,37 @@ def prepare_unencrypted_layout(
     }
 
 
+def get_size_in_byte(partition):
+    """get partition's size in byte"""
+    output = subprocess.run(
+        ['blockdev', '--getsize64', f'/dev/{partition}'],
+        capture_output=True
+    )
+
+    return int(output.stdout.decode())
+
+
+def byte_to_mebibyte(byte):
+    """convert byte to mebibyte"""
+    return byte // (1024 ** 2)
+
+
+def byte_to_gibibyte(byte):
+    """convert byte to gibibyte"""
+    return byte // (1024 ** 3)
+
+
+def resize_ntfs_filesystem(partition, new_size, unit='M'):
+    """resize NTFS filesystem"""
+    subprocess.run([
+        'ntfsresize', '-f', '--size', f'{new_size}{unit}', f'/dev/{partition}'
+    ])
+
+    # remove dirty flag, so the filesystem will not be checked on next
+    # Windows boot
+    subprocess.run(['ntfsfix', '-d', f'/dev/{partition}'])
+
+
 def prepare_unencrypted_dual_boot_layout(
     device, boot_size='+550M', swap_size='+20G', root_size='+200G'
 ):
@@ -160,24 +191,29 @@ def prepare_unencrypted_dual_boot_layout(
     swap_partnum = '6'
     root_partnum = '7'
 
-    # calculate and make space for required partitions
+    # set partition name based on device's name
+    partition_prefix = device + 'p' if device.startswith('nvme') else device
+    esp_part_name = partition_prefix + esp_partnum
+    xbootldr_part_name = partition_prefix + xbootldr_partnum
+    msftdata_part_name = partition_prefix + msftdata_partnum
+    swap_part_name = partition_prefix + swap_partnum
+    root_part_name = partition_prefix + root_partnum
+
+    # calculate and make space for required partitions (the unit is MiB)
+    # -1024 here to make sure filesystem not damaged after shrunk
     space_to_shrink = str(
         int(boot_size[1:-1]) +
         int(swap_size[1:-1]) * 1024 +
         int(root_size[1:-1]) * 1024
     )
+    msftdata_size = byte_to_mebibyte(get_size_in_byte(msftdata_part_name))
+    msftdata_new_fs_size = msftdata_size - int(space_to_shrink) - 1024
+    resize_ntfs_filesystem(msftdata_part_name, str(msftdata_new_fs_size))
     shrink_partition(device, msftdata_partnum, space_to_shrink, 'MiB')
 
     create_partition(device, 'ea00', 'XBOOTLDR', boot_size)
     create_partition(device, '8200', 'swap', swap_size)
     create_partition(device, '8304', 'root', '0')
-
-    # set partition name based on device's name
-    partition_prefix = device + 'p' if device.startswith('nvme') else device
-    esp_part_name = partition_prefix + esp_partnum
-    xbootldr_part_name = partition_prefix + xbootldr_partnum
-    swap_part_name = partition_prefix + swap_partnum
-    root_part_name = partition_prefix + root_partnum
 
     wipe_partition(xbootldr_part_name)
     wipe_partition(swap_part_name)
@@ -304,22 +340,27 @@ def prepare_encrypted_dual_boot_layout(
     lv_swap_name = 'lv_swap'
     lv_root_name = 'lv_root'
 
-    # calculate and make space for required partitions
+    # set partition name based on device's name
+    partition_prefix = device + 'p' if device.startswith('nvme') else device
+    esp_part_name = partition_prefix + esp_partnum
+    xbootldr_part_name = partition_prefix + xbootldr_partnum
+    msftdata_part_name = partition_prefix + msftdata_partnum
+    luks_encrypted_part_name = partition_prefix + luks_encrypted_partnum
+
+    # calculate and make space for required partitions (the unit is MiB)
+    # -1024 here to make sure filesystem not damaged after shrunk
     space_to_shrink = str(
         int(boot_size[1:-1]) +
         int(swap_size[1:-1]) * 1024 +
         int(root_size[1:-1]) * 1024
     )
+    msftdata_size = byte_to_mebibyte(get_size_in_byte(msftdata_part_name))
+    msftdata_new_fs_size = msftdata_size - int(space_to_shrink) - 1024
+    resize_ntfs_filesystem(msftdata_part_name, str(msftdata_new_fs_size))
     shrink_partition(device, msftdata_partnum, space_to_shrink, 'MiB')
 
     create_partition(device, 'ea00', 'XBOOTLDR', boot_size)
     create_partition(device, '8309', 'luks_encrypted', '0')
-
-    # set partition name based on device's name
-    partition_prefix = device + 'p' if device.startswith('nvme') else device
-    esp_part_name = partition_prefix + esp_partnum
-    xbootldr_part_name = partition_prefix + xbootldr_partnum
-    luks_encrypted_part_name = partition_prefix + luks_encrypted_partnum
 
     wipe_partition(xbootldr_part_name)
     wipe_partition(luks_encrypted_part_name)
