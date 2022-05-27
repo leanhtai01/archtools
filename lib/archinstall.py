@@ -467,7 +467,7 @@ class ArchInstall:
         else:
             indexes = re.findall(r'\d+', path_list)
 
-        return indexes
+        return path_list, indexes
 
     def add_gnome_shortcut(self, name, key_binding, command):
         """add a GNOME shortcut"""
@@ -537,7 +537,7 @@ class ArchInstall:
             '/custom-keybindings/custom'
         )
 
-        indexes = self.get_gnome_custom_shortcut_indexes()
+        indexes = self.get_gnome_custom_shortcut_indexes()[1]
 
         for index in indexes:
             subprocess.run([
