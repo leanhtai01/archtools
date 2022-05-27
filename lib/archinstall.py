@@ -400,6 +400,10 @@ class ArchInstall:
         """install core tools"""
         self.install_packages_from_file('packages_info/core_tools.txt')
 
+    def install_editors(self):
+        """install editors"""
+        self.install_packages_from_file('packages_info/editors.txt')
+
     def install_virtualbox(self):
         """install virtualbox"""
         self.install_packages([
