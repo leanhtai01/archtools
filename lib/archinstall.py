@@ -39,6 +39,14 @@ class ArchInstall:
             + packages
         )
 
+    def install_packages_asdeps(self, packages: list):
+        """install packages asdeps"""
+        subprocess.run(
+            self.cmd_prefix +
+            ['pacman', '-Syu', '--needed', '--noconfirm', '--asdeps'] +
+            packages
+        )
+
     def install_packages_from_file(self, file_name):
         """install packages from file contain packages list"""
         packages = self.get_packages_from_file(file_name)
