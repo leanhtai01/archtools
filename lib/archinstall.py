@@ -859,6 +859,15 @@ class ArchInstall:
 
         return optional_pkgs
 
+    def install_packages_with_all_optional_deps(self, packages: list):
+        """install packages with all optional dependencies"""
+        # install packages
+        self.install_packages(packages)
+
+        # install optional dependencies
+        for package in packages:
+            self.install_packages(self.get_package_optional_deps(package))
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
