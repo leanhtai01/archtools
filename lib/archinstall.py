@@ -855,7 +855,8 @@ class ArchInstall:
         lines = raw_opt_pkg_info.splitlines()
 
         optional_pkg_gen = map(
-            lambda line: (line.split(':')[0].strip() if ':' in line
+            lambda line: (line.split(':')[0].strip()
+                          if ':' in line
                           else line.split()[0].strip()),
             lines
         )
