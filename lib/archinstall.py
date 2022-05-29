@@ -879,7 +879,9 @@ class ArchInstall:
 
         # install optional dependencies
         for package in packages:
-            self.install_packages(self.get_package_optional_deps(package))
+            self.install_packages_asdeps(
+                self.get_package_optional_deps(package)
+            )
 
     def install_base_system(self):
         """install base system"""
