@@ -834,6 +834,31 @@ class ArchInstall:
                     '0\t0\n\n'
                 )
 
+    def get_package_optional_deps(self, package_name):
+        """get package optional dependencies"""
+        if not self.is_package_installed(package_name):
+            return []
+
+        output = subprocess.run([
+            'pacman', '-Qi', package_name
+        ], capture_output=True)
+        package_info = output.stdout.decode()
+
+        match = re.search(
+            r'Optional Deps.*Required By', package_info, re.DOTALL
+        )
+
+        raw_opt_pkg_info = match.group(0)
+
+        raw_opt_pkg_info = re.sub(r'Optional Deps\s*:', '', raw_opt_pkg_info)
+        raw_opt_pkg_info = re.sub(r'Required By.*', '', raw_opt_pkg_info)
+        lines = raw_opt_pkg_info.splitlines()
+
+        optional_pkg_gen = map(lambda line: line.split(':')[0].strip(), lines)
+        optional_pkgs = list(optional_pkg_gen)
+
+        return optional_pkgs
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
