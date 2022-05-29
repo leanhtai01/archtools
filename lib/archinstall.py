@@ -883,6 +883,21 @@ class ArchInstall:
                 self.get_optional_deps(package)
             )
 
+    def is_required(self, package_name):
+        """check whether package is required by other package(s)"""
+        output = subprocess.run([
+            'pacman', '-Qi', package_name
+        ], capture_output=True)
+        package_info = output.stdout.decode()
+
+        match = re.search(
+            r'^Required By\s*:\s*None$',
+            package_info,
+            re.MULTILINE
+        )
+
+        return False if match else True
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
