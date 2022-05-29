@@ -842,7 +842,7 @@ class ArchInstall:
                     '0\t0\n\n'
                 )
 
-    def get_package_optional_deps(self, package_name):
+    def get_optional_deps(self, package_name):
         """get package optional dependencies"""
         if not self.is_package_installed(package_name):
             return []
@@ -880,7 +880,7 @@ class ArchInstall:
         # install optional dependencies
         for package in packages:
             self.install_packages_asdeps(
-                self.get_package_optional_deps(package)
+                self.get_optional_deps(package)
             )
 
     def install_base_system(self):
