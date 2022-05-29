@@ -854,7 +854,11 @@ class ArchInstall:
         raw_opt_pkg_info = re.sub(r'Required By.*', '', raw_opt_pkg_info)
         lines = raw_opt_pkg_info.splitlines()
 
-        optional_pkg_gen = map(lambda line: line.split(':')[0].strip(), lines)
+        optional_pkg_gen = map(
+            lambda line: (line.split(':')[0].strip() if ':' in line
+                          else line.split()[0].strip()),
+            lines
+        )
         optional_pkgs = list(optional_pkg_gen)
 
         return optional_pkgs
