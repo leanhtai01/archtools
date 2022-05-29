@@ -786,6 +786,54 @@ class ArchInstall:
             'true'
         )
 
+    def configure_auto_mount_luks_encrypted_devices(self):
+        """configure auto mount LUKS encrypted devices"""
+        # create directory contain LUKS passwords
+        luks_keys_dir = os.path.join(self.path_prefix, '/etc/luks-keys')
+        pathlib.Path(luks_keys_dir).mkdir(exist_ok=True)
+
+        # secure the luks-passwords directory
+        subprocess.run(self.cmd_prefix + [
+            'chmod', '600', luks_keys_dir
+        ])
+
+        devices = self.settings['luks_encrypted_devices']
+        username = self.settings['username']
+        for device in devices:
+            part_uuid = device['part_uuid']
+            mapper_uuid = device['mapper_uuid']
+            mount_point_name = device['mount_point_name']
+            key = device['key']
+
+            # write key to file
+            path_to_keyfile = os.path.join(luks_keys_dir, f'{part_uuid}')
+            with open(path_to_keyfile, 'w') as keyfile_writer:
+                keyfile_writer.write(key)
+
+            # write encryption information to crypttab
+            path_to_crypttab = os.path.join(self.path_prefix, '/etc/crypttab')
+            fileutils.backup(path_to_crypttab)
+            with open(path_to_crypttab, 'a') as crypttab_writer:
+                crypttab_writer.write(
+                    f'luks-{part_uuid}\t' +
+                    f'UUID={part_uuid}\t' +
+                    f'{path_to_keyfile}\t' +
+                    'nofail\n\n'
+                )
+
+            # write mount information to fstab
+            path_to_fstab = os.path.join(self.path_prefix, '/etc/fstab')
+            fileutils.backup(path_to_fstab)
+            with open(path_to_fstab, 'a') as fstab_writer:
+                fstab_writer.write(
+                    f'/dev/disk/by-uuid/{mapper_uuid}\t' +
+                    f'/run/media/{username}/{mount_point_name}\t' +
+                    'auto\t' +
+                    'nosuid,nodev,nofail,x-gvfs-show,' +
+                    'x-systemd.before=httpd.service\t' +
+                    '0\t0\n\n'
+                )
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
