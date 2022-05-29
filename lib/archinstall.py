@@ -872,6 +872,17 @@ class ArchInstall:
 
         return optional_pkgs
 
+    def get_non_required_optional_deps(self, package_name: str):
+        """get non-required optional dependencies of package"""
+        optional_deps = self.get_optional_deps(package_name)
+        non_required_optional_deps = []
+
+        for pkg in optional_deps:
+            if not self.is_required(pkg):
+                non_required_optional_deps.append(pkg)
+
+        return non_required_optional_deps
+
     def install_packages_with_all_optional_deps(self, packages: list):
         """install packages with all optional dependencies"""
         # install packages
