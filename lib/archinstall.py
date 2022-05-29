@@ -744,6 +744,48 @@ class ArchInstall:
             'gpasswd', '-a', username, 'kvm'
         ])
 
+    def gnome_gsettings_set(self, schema, key, value):
+        """sets the value of KEY to VALUE"""
+        subprocess.run([
+            'gsettings', 'set', f'{schema}', f'{key}', f'{value}'
+        ])
+
+    def configure_gnome(self):
+        """configure GNOME"""
+        # set default monospace font
+        self.install_packages(['ttf-cascadia-code'])
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.interface',
+            'monospace-font-name',
+            'Cascadia Mono 12'
+        )
+
+        # switch applications only in current workspace
+        self.gnome_gsettings_set(
+            'org.gnome.shell.app-switcher',
+            'current-workspace-only',
+            'true'
+        )
+
+        # schedule Night Light
+        self.gnome_gsettings_set(
+            'org.gnome.settings-daemon.plugins.color',
+            'night-light-enabled',
+            'true'
+        )
+        self.gnome_gsettings_set(
+            'org.gnome.settings-daemon.plugins.color',
+            'night-light-schedule-from',
+            '18.0'
+        )
+
+        # show weekday
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.interface',
+            'clock-show-weekday',
+            'true'
+        )
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
