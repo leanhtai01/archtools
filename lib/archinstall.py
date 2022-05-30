@@ -430,6 +430,10 @@ class ArchInstall:
             'gpasswd', '-a', f'{self.settings["username"]}', 'docker'
         ])
 
+    def install_c_cpp_programming(self):
+        """install C, C++ programming"""
+        self.install_packages_from_file('packages_info/c_cpp_programming.txt')
+
     def install_java_programming(self):
         """install java programming"""
         self.install_packages_from_file('packages_info/java_programming.txt')
