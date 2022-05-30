@@ -434,6 +434,10 @@ class ArchInstall:
         """install C, C++ programming"""
         self.install_packages_from_file('packages_info/c_cpp_programming.txt')
 
+    def install_go_programming(self):
+        """install Go programming"""
+        self.install_packages_from_file('packages_info/go_programming.txt')
+
     def install_java_programming(self):
         """install java programming"""
         self.install_packages_from_file('packages_info/java_programming.txt')
