@@ -602,6 +602,13 @@ class ArchInstall:
                 'firefox-developer-edition'
             )
 
+        if self.is_package_installed('keepassxc'):
+            self.add_gnome_shortcut(
+                'KeePassXC',
+                '<Primary><Alt>p',
+                'keepassxc'
+            )
+
     def is_package_installed(self, package_name):
         """check whether package is installed"""
         cmd_result = subprocess.run([
