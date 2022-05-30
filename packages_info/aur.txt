@@ -1,0 +1,9 @@
+ibus-bamboo
+google-chrome
+chrome-gnome-shell
+sublime-merge
+dislocker
+jetbrains-toolbox
+visual-studio-code-bin
+ventoy-bin
+virtualbox-ext-oracle
