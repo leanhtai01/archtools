@@ -812,7 +812,10 @@ class ArchInstall:
     def configure_auto_mount_luks_encrypted_devices(self):
         """configure auto mount LUKS encrypted devices"""
         # create directory contain LUKS passwords
-        luks_keys_dir = os.path.join(self.path_prefix, 'etc/luks-keys')
+        luks_keys_dir_name = 'luks-keys'
+        luks_keys_dir = os.path.join(
+            self.path_prefix, f'etc/{luks_keys_dir_name}'
+        )
         pathlib.Path(luks_keys_dir).mkdir(exist_ok=True)
 
         # secure the luks-passwords directory
@@ -838,7 +841,7 @@ class ArchInstall:
                 crypttab_writer.write(
                     f'luks-{part_uuid}\t' +
                     f'UUID={part_uuid}\t' +
-                    f'{path_to_keyfile}\t' +
+                    f'/etc/{luks_keys_dir_name}/{part_uuid}\t' +
                     'nofail\n\n'
                 )
 
