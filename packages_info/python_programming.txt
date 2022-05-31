@@ -8,3 +8,4 @@ python-scikit-learn
 tk
 python-matplotlib
 python-docs
+autopep8
