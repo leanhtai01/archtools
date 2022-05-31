@@ -816,9 +816,7 @@ class ArchInstall:
         pathlib.Path(luks_keys_dir).mkdir(exist_ok=True)
 
         # secure the luks-passwords directory
-        subprocess.run(self.cmd_prefix + [
-            'chmod', '600', luks_keys_dir
-        ])
+        subprocess.run(['chmod', '600', luks_keys_dir])
 
         devices = self.settings['luks_encrypted_devices']
         username = self.settings['username']
