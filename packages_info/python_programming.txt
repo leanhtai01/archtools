@@ -10,3 +10,4 @@ python-matplotlib
 python-docs
 autopep8
 python-requests
+python-beautifulsoup4
