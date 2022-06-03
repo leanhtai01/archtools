@@ -9,3 +9,4 @@ tk
 python-matplotlib
 python-docs
 autopep8
+python-requests
