@@ -15,6 +15,7 @@ class ArchInstall:
         self.load_settings(setting_file_name)
         self.home_dir = f'/home/{self.settings["username"]}'
         self.partition_layout = self.settings['partition_layout']
+        self.pkg_info = 'packages_info'
 
         if live_system:
             self.cmd_prefix = ['arch-chroot', '/mnt']
@@ -360,19 +361,19 @@ class ArchInstall:
 
     def install_intel_drivers(self):
         """install gpu drivers"""
-        self.install_packages_from_file('packages_info/intel.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/intel.txt')
 
     def install_pipewire(self):
         """install pipewire"""
-        self.install_packages_from_file('packages_info/pipewire.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/pipewire.txt')
 
     def install_gnome_de(self):
         """install GNOME DE"""
-        self.install_packages_from_file('packages_info/gnome_de.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/gnome_de.txt')
 
     def install_kde_plasma_de(self):
         """install KDE Plasma DE"""
-        self.install_packages_from_file('packages_info/kde_plasma_de.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/kde_plasma_de.txt')
 
     def enable_bluetooth_service(self):
         """enable bluetooth service"""
@@ -394,23 +395,25 @@ class ArchInstall:
 
     def install_fonts(self):
         """install fonts"""
-        self.install_packages_from_file('packages_info/fonts.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/fonts.txt')
 
     def install_browsers(self):
         """install browsers"""
-        self.install_packages_from_file('packages_info/browsers.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/browsers.txt')
 
     def install_core_programming(self):
         """install core programming packages"""
-        self.install_packages_from_file('packages_info/core_programming.txt')
+        self.install_packages_from_file(
+            f'{self.pkg_info}/core_programming.txt'
+        )
 
     def install_core_tools(self):
         """install core tools"""
-        self.install_packages_from_file('packages_info/core_tools.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/core_tools.txt')
 
     def install_editors(self):
         """install editors"""
-        self.install_packages_from_file('packages_info/editors.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/editors.txt')
 
     def install_virtualbox(self):
         """install virtualbox"""
@@ -432,37 +435,41 @@ class ArchInstall:
 
     def install_c_cpp_programming(self):
         """install C, C++ programming"""
-        self.install_packages_from_file('packages_info/c_cpp_programming.txt')
+        self.install_packages_from_file(
+            f'{self.pkg_info}/c_cpp_programming.txt')
 
     def install_go_programming(self):
         """install Go programming"""
-        self.install_packages_from_file('packages_info/go_programming.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/go_programming.txt')
 
     def install_java_programming(self):
         """install java programming"""
-        self.install_packages_from_file('packages_info/java_programming.txt')
+        self.install_packages_from_file(
+            f'{self.pkg_info}/java_programming.txt')
 
     def install_dotnet_programming(self):
         """install dotnet programming"""
-        self.install_packages_from_file('packages_info/dotnet_programming.txt')
+        self.install_packages_from_file(
+            f'{self.pkg_info}/dotnet_programming.txt')
 
     def install_python_programming(self):
         """install python programming"""
-        self.install_packages_from_file('packages_info/python_programming.txt')
+        self.install_packages_from_file(
+            f'{self.pkg_info}/python_programming.txt')
 
     def install_javascript_programming(self):
         """install javascript programming"""
         self.install_packages_from_file(
-            'packages_info/javascript_programming.txt'
+            f'{self.pkg_info}/javascript_programming.txt'
         )
 
     def install_multimedia(self):
         """install multimedia"""
-        self.install_packages_from_file('packages_info/multimedia.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/multimedia.txt')
 
     def install_office(self):
         """install office"""
-        self.install_packages_from_file('packages_info/office.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/office.txt')
 
     def configure_as_virtualbox_guest(self):
         """configure as VirtualBox guest"""
@@ -637,7 +644,7 @@ class ArchInstall:
 
     def configure_pipewire(self):
         """configure sound server"""
-        self.install_packages_from_file('packages_info/pipewire.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/pipewire.txt')
 
         pathlib.Path(f'{self.home_dir}/.config').mkdir(exist_ok=True)
 
@@ -736,7 +743,7 @@ class ArchInstall:
 
     def install_kvm(self):
         """install KVM"""
-        self.install_packages_from_file('packages_info/kvm.txt')
+        self.install_packages_from_file(f'{self.pkg_info}/kvm.txt')
 
         subprocess.run(self.cmd_prefix + [
             'systemctl', 'enable', 'libvirtd'
