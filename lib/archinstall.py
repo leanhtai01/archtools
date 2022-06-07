@@ -91,25 +91,24 @@ class ArchInstall:
         is_dual_boot = self.settings['is_dual_boot_windows']
         password = self.settings['system_partition_password']
 
-        match layout:
-            case 'unencrypted':
-                if is_dual_boot:
-                    partnames = diskutils.prepare_unencrypted_dual_boot_layout(
-                        device, boot_size, swap_size, root_size
-                    )
-                else:
-                    partnames = diskutils.prepare_unencrypted_layout(
-                        device, esp_size, boot_size, swap_size
-                    )
-            case 'encrypted':
-                if is_dual_boot:
-                    partnames = diskutils.prepare_encrypted_dual_boot_layout(
-                        device, password, boot_size, swap_size, root_size
-                    )
-                else:
-                    partnames = diskutils.prepare_encrypted_layout(
-                        device, password, esp_size, boot_size, swap_size
-                    )
+        if layout == 'unencrypted':
+            if is_dual_boot:
+                partnames = diskutils.prepare_unencrypted_dual_boot_layout(
+                    device, boot_size, swap_size, root_size
+                )
+            else:
+                partnames = diskutils.prepare_unencrypted_layout(
+                    device, esp_size, boot_size, swap_size
+                )
+        elif layout == 'encrypted':
+            if is_dual_boot:
+                partnames = diskutils.prepare_encrypted_dual_boot_layout(
+                    device, password, boot_size, swap_size, root_size
+                )
+            else:
+                partnames = diskutils.prepare_encrypted_layout(
+                    device, password, esp_size, boot_size, swap_size
+                )
 
         self.settings.update(partnames)
 
@@ -319,19 +318,18 @@ class ArchInstall:
             loader_conf_file.write('console-mode keep\n')
             loader_conf_file.write('editor no\n')
 
-        match self.partition_layout:
-            case 'unencrypted':
-                root_uuid = self.get_uuid(self.settings['root_part_name'])
-                swap_uuid = self.get_uuid(self.settings['swap_part_name'])
-            case 'encrypted':
-                luks_part_name = self.settings['luks_encrypted_part_name']
-                mapper_name = self.settings['luks_mapper_name']
-                vg_name = self.settings['vg_name']
-                lv_swap_name = self.settings['lv_swap_name']
-                lv_root_name = self.settings['lv_root_name']
+        if self.partition_layout == 'unencrypted':
+            root_uuid = self.get_uuid(self.settings['root_part_name'])
+            swap_uuid = self.get_uuid(self.settings['swap_part_name'])
+        elif self.partition_layout == 'encrypted':
+            luks_part_name = self.settings['luks_encrypted_part_name']
+            mapper_name = self.settings['luks_mapper_name']
+            vg_name = self.settings['vg_name']
+            lv_swap_name = self.settings['lv_swap_name']
+            lv_root_name = self.settings['lv_root_name']
 
-                luks_uuid = self.get_uuid(luks_part_name)
-                lv_swap_uuid = self.get_uuid(f'{vg_name}/{lv_swap_name}')
+            luks_uuid = self.get_uuid(luks_part_name)
+            lv_swap_uuid = self.get_uuid(f'{vg_name}/{lv_swap_name}')
 
         archlinux_conf_path = '/mnt/boot/loader/entries/archlinux.conf'
         with open(archlinux_conf_path, 'w') as archlinux_conf_file:
@@ -339,18 +337,17 @@ class ArchInstall:
             archlinux_conf_file.write('linux /vmlinuz-linux\n')
             archlinux_conf_file.write('initrd /intel-ucode.img\n')
             archlinux_conf_file.write('initrd /initramfs-linux.img\n')
-            match self.partition_layout:
-                case 'unencrypted':
-                    archlinux_conf_file.write(
-                        f'options root=UUID={root_uuid} ' +
-                        f'resume=UUID={swap_uuid} rw\n'
-                    )
-                case 'encrypted':
-                    archlinux_conf_file.write(
-                        f'options cryptdevice=UUID={luks_uuid}:{mapper_name}' +
-                        f' root=/dev/{vg_name}/{lv_root_name} ' +
-                        f'resume=UUID={lv_swap_uuid} rw\n'
-                    )
+            if self.partition_layout == 'unencrypted':
+                archlinux_conf_file.write(
+                    f'options root=UUID={root_uuid} ' +
+                    f'resume=UUID={swap_uuid} rw\n'
+                )
+            elif self.partition_layout == 'encrypted':
+                archlinux_conf_file.write(
+                    f'options cryptdevice=UUID={luks_uuid}:{mapper_name}' +
+                    f' root=/dev/{vg_name}/{lv_root_name} ' +
+                    f'resume=UUID={lv_swap_uuid} rw\n'
+                )
 
     def get_packages_from_file(self, file_path):
         """get packages from file"""
@@ -383,15 +380,14 @@ class ArchInstall:
 
     def configure_display_manager(self, display_manager):
         """configure display manager"""
-        match display_manager:
-            case 'gdm':
-                subprocess.run(self.cmd_prefix + [
-                    'systemctl', 'enable', 'gdm'
-                ])
-            case 'sddm':
-                subprocess.run(self.cmd_prefix + [
-                    'systemctl', 'enable', 'sddm'
-                ])
+        if display_manager == 'gdm':
+            subprocess.run(self.cmd_prefix + [
+                'systemctl', 'enable', 'gdm'
+            ])
+        elif display_manager == 'sddm':
+            subprocess.run(self.cmd_prefix + [
+                'systemctl', 'enable', 'sddm'
+            ])
 
     def install_fonts(self):
         """install fonts"""
