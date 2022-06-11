@@ -870,7 +870,7 @@ class ArchInstall:
         self.gnome_gsettings_set(
             'org.gnome.settings-daemon.plugins.power',
             'idle-dim',
-            'true'
+            'false'
         )
 
         # turn off screen blank
