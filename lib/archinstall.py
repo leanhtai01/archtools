@@ -1021,6 +1021,22 @@ class ArchInstall:
             f'{self.pkg_info}/steam.txt'
         )
 
+    def configure_ibus_bamboo(self):
+        """configure ibus-bamboo"""
+        self.install_aur_packages(['ibus-bamboo'])
+
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.input-sources',
+            'sources',
+            "[('xkb', 'us'), ('ibus', 'Bamboo')]"
+        )
+
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.input-sources',
+            'per-window',
+            'true'
+        )
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
