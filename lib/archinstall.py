@@ -714,7 +714,7 @@ class ArchInstall:
         if not self.is_package_installed('yay'):
             self.install_yay_aur_helper()
 
-        subprocess.run(['yay', '-Syu', '--noconfirm'] + packages)
+        subprocess.run(['yay', '-Syu', '--needed', '--noconfirm'] + packages)
 
     def install_aur_packages_from_file(self, file_name):
         """install AUR packages from file contain packages list"""
