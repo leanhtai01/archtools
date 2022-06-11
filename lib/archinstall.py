@@ -622,7 +622,7 @@ class ArchInstall:
 
     def is_package_installed(self, package_name):
         """check whether package is installed"""
-        cmd_result = subprocess.run([
+        cmd_result = subprocess.run(self.cmd_prefix + [
             'pacman', '-Qi', package_name
         ], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
@@ -941,7 +941,7 @@ class ArchInstall:
         if not self.is_package_installed(package_name):
             return []
 
-        output = subprocess.run([
+        output = subprocess.run(self.cmd_prefix + [
             'pacman', '-Qi', package_name
         ], capture_output=True)
         package_info = output.stdout.decode()
