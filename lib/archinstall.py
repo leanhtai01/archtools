@@ -940,6 +940,12 @@ class ArchInstall:
             'systemctl', 'start', 'tlp'
         ])
 
+    def install_steam(self):
+        """install Steam"""
+        self.install_packages_from_file(
+            f'{self.pkg_info}/steam.txt'
+        )
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
