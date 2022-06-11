@@ -786,6 +786,27 @@ class ArchInstall:
             'Cascadia Mono 12'
         )
 
+        # set default interface font
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.interface',
+            'font-name',
+            'Cascadia Mono 12'
+        )
+
+        # set default legacy windows titles font
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.wm.preferences',
+            'titlebar-font',
+            'Cascadia Mono Bold 12'
+        )
+
+        # set default document font
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.interface',
+            'document-font-name',
+            'Cascadia Mono 12'
+        )
+
         # switch applications only in current workspace
         self.gnome_gsettings_set(
             'org.gnome.shell.app-switcher',
@@ -809,6 +830,60 @@ class ArchInstall:
         self.gnome_gsettings_set(
             'org.gnome.desktop.interface',
             'clock-show-weekday',
+            'true'
+        )
+
+        # empty favorite-apps
+        self.gnome_gsettings_set(
+            'org.gnome.shell',
+            'favorite-apps',
+            '[]'
+        )
+
+        # set default folder viewer nautilus
+        self.gnome_gsettings_set(
+            'org.gnome.nautilus.preferences',
+            'default-folder-viewer',
+            'list-view'
+        )
+
+        # set default-zoom-level nautilus
+        self.gnome_gsettings_set(
+            'org.gnome.nautilus.list-view',
+            'default-zoom-level',
+            'large'
+        )
+
+        # disable suspend
+        self.gnome_gsettings_set(
+            'org.gnome.settings-daemon.plugins.power',
+            'sleep-inactive-battery-type',
+            'nothing'
+        )
+        self.gnome_gsettings_set(
+            'org.gnome.settings-daemon.plugins.power',
+            'sleep-inactive-ac-type',
+            'nothing'
+        )
+
+        # turn off dim screen
+        self.gnome_gsettings_set(
+            'org.gnome.settings-daemon.plugins.power',
+            'idle-dim',
+            'true'
+        )
+
+        # turn off screen blank
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.session',
+            'idle-delay',
+            'uint32 0'
+        )
+
+        # show battery percentage
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.interface',
+            'show-battery-percentage',
             'true'
         )
 
