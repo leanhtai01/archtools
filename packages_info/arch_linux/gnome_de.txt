@@ -25,5 +25,4 @@ totem
 xdg-user-dirs-gtk
 gnome-usage
 gnome-todo
-power-profiles-daemon
 gnome-shell-extension-appindicator
