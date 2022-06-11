@@ -928,6 +928,18 @@ class ArchInstall:
 
         return False if match else True
 
+    def install_tlp(self):
+        """install TLP"""
+        self.install_packages(['tlp'])
+
+        subprocess.run(self.cmd_prefix + [
+            'systemctl', 'enable', 'tlp'
+        ])
+
+        subprocess.run(self.cmd_prefix + [
+            'systemctl', 'start', 'tlp'
+        ])
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
