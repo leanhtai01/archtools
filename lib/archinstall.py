@@ -1054,6 +1054,14 @@ class ArchInstall:
             '--new-sn', 'ZF3R0-FHED2-M80TY-8QYGC-NPKYF'
         ])
 
+    def enable_gnome_appindicator(self):
+        """enable GNOME AppIndicator"""
+        subprocess.run([
+            'gnome-extensions',
+            'enable',
+            'appindicatorsupport@rgcjonas.gmail.com'
+        ])
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
