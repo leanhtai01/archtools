@@ -1037,6 +1037,23 @@ class ArchInstall:
             'true'
         )
 
+    def install_vmware_workstation(self):
+        """install VMware Workstation"""
+        self.install_aur_packages(['vmware-workstation'])
+
+        subprocess.run([
+            'sudo', 'systemctl', 'enable', 'vmware-networks'
+        ])
+
+        subprocess.run([
+            'sudo', 'systemctl', 'enable', 'vmware-usbarbitrator'
+        ])
+
+        subprocess.run([
+            'sudo', '/usr/lib/vmware/bin/vmware-vmx-debug',
+            '--new-sn', 'ZF3R0-FHED2-M80TY-8QYGC-NPKYF'
+        ])
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
