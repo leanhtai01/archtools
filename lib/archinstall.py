@@ -1066,6 +1066,18 @@ class ArchInstall:
             'appindicatorsupport@rgcjonas.gmail.com'
         ])
 
+    def configure_ufw(self):
+        """configure ufw"""
+        self.install_packages(['ufw', 'ufw-extras', 'gufw'])
+
+        subprocess.run(self.cmd_prefix + [
+            'systemctl', 'enable', 'ufw'
+        ])
+
+        subprocess.run(self.cmd_prefix + [
+            'ufw', 'enable'
+        ])
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
