@@ -1,0 +1,46 @@
+{
+    "is_connect_to_wifi": true,
+    "wifi_ssid": "home_wifi",
+    "wifi_password": "123",
+    "wifi_device": "wlan0",
+    "is_hidden_wifi": true,
+    "hostname": "archlinux",
+    "mirrors": [
+        "Server = https://mirror.xtom.com.hk/archlinux/$repo/os/$arch",
+        "Server = https://mirror.xtom.com.hk/archlinux/$repo/os/$arch",
+        "Server = https://mirror.xtom.com.hk/archlinux/$repo/os/$arch"
+    ],
+    "device_to_install": "sda",
+    "partition_layout": "encrypted",
+    "is_dual_boot_windows": false,
+    "size_of_efi_partition": "+550M",
+    "size_of_boot_partition": "+550M",
+    "size_of_swap_partition": "+20G",
+    "size_of_root_partition": "+200G",
+    "system_partition_password": "123",
+    "bootloader": "systemd-boot",
+    "root_password": "123",
+    "user_real_name": "Real Name",
+    "username": "username",
+    "user_email": "email@email.com",
+    "user_password": "123",
+    "user_groups": [
+        "wheel",
+        "audio",
+        "lp",
+        "optical",
+        "storage",
+        "disk",
+        "video",
+        "power"
+    ],
+    "timeout_for_sudo": 20,
+    "luks_encrypted_devices": [
+        {
+            "part_uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "mapper_uuid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+            "mount_point_name": "mount_point",
+            "key": "123"
+        }
+    ]
+}
