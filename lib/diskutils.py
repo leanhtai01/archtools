@@ -437,3 +437,13 @@ def encrypt_device(device, encrypt_name, username, password):
     subprocess.run([
         'cryptsetup', 'close', f'{encrypt_name}'
     ])
+
+
+def write_hybrid_iso_to_usb(usb, path_to_iso):
+    """write hybrid ISO to usb"""
+    wipe_device(usb)
+    create_partition(usb, '8309', 'BOOTUSB', '0')
+
+    subprocess.run([
+        'dd', f'if={path_to_iso}', f'of=/dev/{usb}', 'bs=4M', 'conv=sync'
+    ])
