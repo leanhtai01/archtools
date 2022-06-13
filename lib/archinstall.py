@@ -1015,10 +1015,14 @@ class ArchInstall:
             'systemctl', 'start', 'tlp'
         ])
 
-    def install_steam(self):
-        """install Steam"""
+    def install_games(self):
+        """install games"""
+        self.install_packages_with_all_optional_deps(
+            ['lutris', 'wine']
+        )
+
         self.install_packages_from_file(
-            f'{self.pkg_info}/steam.txt'
+            f'{self.pkg_info}/games.txt'
         )
 
     def configure_ibus_bamboo(self):
