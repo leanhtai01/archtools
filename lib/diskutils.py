@@ -39,9 +39,14 @@ def format_ntfs(partition):
     subprocess.run(['mkfs.ntfs', '-f', f'/dev/{partition}'])
 
 
-def format_ext4(partition):
+def format_ext4(partition, label=None):
     """format a partition to ext4"""
-    subprocess.run(['mkfs.ext4', f'/dev/{partition}'])
+    cmd = ['mkfs.ext4', f'/dev/{partition}']
+
+    if label:
+        cmd.extend(['-L', label])
+
+    subprocess.run(cmd)
 
 
 def set_partition_flag_state(device, partnum, flag, state):
