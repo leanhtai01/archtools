@@ -399,3 +399,41 @@ def prepare_encrypted_dual_boot_layout(
         'lv_swap_name': lv_swap_name,
         'lv_root_name': lv_root_name
     }
+
+
+def encrypt_device(device, encrypt_name, username, password):
+    """encrypt device using LUKS"""
+    partnum = '1'
+
+    wipe_device(device)
+
+    create_partition(device, '8309', encrypt_name, '0')
+
+    # set partition name based on device's name
+    part_prefix = device + 'p' if device.startswith('nvme') else device
+    partname = part_prefix + partnum
+
+    wipe_partition(partname)
+
+    # make LUKS container
+    create_luks_container(partname, password)
+    open_luks_container(partname, encrypt_name, password)
+    wipe_partition(f'mapper/{encrypt_name}')
+
+    # format partition
+    format_ext4(f'mapper/{encrypt_name}', encrypt_name)
+
+    # make partition accessable by normal user
+    mount_partition(f'mapper/{encrypt_name}', '/mnt')
+
+    subprocess.run([
+        'chown', f'{username}:{username}', '/mnt'
+    ])
+
+    subprocess.run([
+        'umount', '/mnt'
+    ])
+
+    subprocess.run([
+        'cryptsetup', 'close', f'{encrypt_name}'
+    ])
