@@ -34,6 +34,8 @@ def main():
 
     diskutils.encrypt_device(device, encrypt_name, username, password)
 
+    print(f'Device {device} encrypted successfully!')
+
 
 if __name__ == '__main__':
     main()
