@@ -1,2 +1,9 @@
 steam
 steam-native-runtime
+kigo
+bovo
+gnome-chess
+gnuchess
+hedgewars
+wesnoth
+supertuxkart
