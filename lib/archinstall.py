@@ -421,6 +421,18 @@ class ArchInstall:
             'gpasswd', '-a', f'{self.settings["username"]}', 'vboxusers'
         ])
 
+    def systemctl_enable(self, unit: str):
+        """enable unit using systemctl"""
+        subprocess.run(self.cmd_prefix + [
+            'systemctl', 'enable', unit
+        ])
+
+    def systemctl_start(self, unit: str):
+        """start unit using systemctl"""
+        subprocess.run(self.cmd_prefix + [
+            'systemctl', 'start', unit
+        ])
+
     def install_docker(self):
         """install docker"""
         self.install_packages(['docker', 'docker-compose'])
