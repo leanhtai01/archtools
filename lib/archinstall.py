@@ -441,6 +441,9 @@ class ArchInstall:
             'gpasswd', '-a', f'{self.settings["username"]}', 'docker'
         ])
 
+        self.systemctl_enable('docker.service')
+        self.systemctl_start('docker.service')
+
     def install_c_cpp_programming(self):
         """install C, C++ programming"""
         self.install_packages_from_file(
