@@ -1095,6 +1095,90 @@ class ArchInstall:
             'ufw', 'enable'
         ])
 
+    def configure_emacs(self):
+        """configure Emacs"""
+        # make sure emacs installed
+        self.install_packages(['emacs'])
+
+        # install font use in Emacs config
+        self.install_packages(['ttf-cascadia-code'])
+
+        # configure for Vietnamese input in Emacs
+        self.install_aur_packages(['xorg-fonts-misc-otb'])
+
+        # configure for user
+        subprocess.run([
+            'git', 'clone', 'https://github.com/leanhtai01/emacsconfig',
+            f'/home/{self.settings["username"]}/.config/emacs'
+        ])
+
+        # configure for root
+        subprocess.run([
+            'sudo', 'git', 'clone',
+            'https://github.com/leanhtai01/emacsconfig',
+            '/root/.config/emacs'
+        ])
+
+    def configure_gedit(self):
+        """configure gedit"""
+        # make sure gedit and gedit-plugins is installed
+        self.install_packages(['gedit', 'gedit-plugins'])
+
+        # set theme to gnome
+        self.install_packages(['gnome-builder', 'gnome-builder-libide-docs'])
+        self.gnome_gsettings_set(
+            'org.gnome.gedit.preferences.editor',
+            'scheme',
+            'builder'
+        )
+
+        # display right margin
+        self.gnome_gsettings_set(
+            'org.gnome.gedit.preferences.editor',
+            'display-right-margin',
+            'true'
+        )
+
+        # insert spaces
+        self.gnome_gsettings_set(
+            'org.gnome.gedit.preferences.editor',
+            'insert-spaces',
+            'true'
+        )
+
+        # set tabs-size
+        self.gnome_gsettings_set(
+            'org.gnome.gedit.preferences.editor',
+            'tabs-size',
+            'uint32 4'
+        )
+
+        # display overview map
+        self.gnome_gsettings_set(
+            'org.gnome.gedit.preferences.editor',
+            'display-overview-map',
+            'true'
+        )
+
+        # set background pattern
+        self.gnome_gsettings_set(
+            'org.gnome.gedit.preferences.editor',
+            'background-pattern',
+            'grid'
+        )
+
+        # enable plugins
+        self.gnome_gsettings_set(
+            'org.gnome.gedit.plugins',
+            'active-plugins',
+            "['codecomment', 'colorpicker', 'wordcompletion', 'commander', \
+                'bracketcompletion', 'smartspaces', 'spell', 'devhelp', \
+                    'sessionsaver', 'git', 'terminal', 'sort', 'filebrowser', \
+                        'modelines', 'docinfo', 'quickhighlight', \
+                            'multiedit', 'drawspaces', 'bookmarks', \
+                                'quickopen', 'findinfiles', 'externaltools']"
+        )
+
     def install_base_system(self):
         """install base system"""
         self.disable_auto_generate_mirrorlist()
