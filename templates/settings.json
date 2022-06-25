@@ -11,7 +11,7 @@
         "Server = https://mirror.xtom.com.hk/archlinux/$repo/os/$arch"
     ],
     "device_to_install": "sda",
-    "partition_layout": "encrypted",
+    "partition_layout": "unencrypted",
     "is_dual_boot_windows": false,
     "size_of_efi_partition": "+550M",
     "size_of_boot_partition": "+550M",
