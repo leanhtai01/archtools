@@ -15,7 +15,10 @@ class ArchInstall:
         self.load_settings(setting_file_name)
         self.home_dir = f'/home/{self.settings["username"]}'
         self.partition_layout = self.settings['partition_layout']
-        self.pkg_info = 'packages_info/arch_linux'
+        self.pkg_info = (
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))) +
+            '/packages_info/arch_linux'
+        )
 
         if live_system:
             self.cmd_prefix = ['arch-chroot', '/mnt']
