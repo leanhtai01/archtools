@@ -15,6 +15,10 @@ class ArchInstall:
         self.load_settings(setting_file_name)
         self.home_dir = f'/home/{self.settings["username"]}'
         self.partition_layout = self.settings['partition_layout']
+        self.live_system = live_system
+        self.working_dir = (
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        )
         self.pkg_info = (
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))) +
             '/packages_info/arch_linux'
@@ -717,21 +721,17 @@ class ArchInstall:
 
     def install_yay_aur_helper(self):
         """install Yay AUR helper"""
-        subprocess.run([
-            'curl', '-LJo', '/tmp/yay.tar.gz',
-            'https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz'
-        ])
+        username = self.settings['username']
+        password = self.settings['user_password']
+        cmd_prefix = (f'arch-chroot -u {username} /mnt '
+                      if self.live_system
+                      else '')
 
-        # save current working directory
-        original_working_dir = os.getcwd()
-
-        os.chdir('/tmp')
-        subprocess.run(['tar', '-xvf', 'yay.tar.gz'])
-
-        os.chdir('/tmp/yay')
-        subprocess.run(['makepkg', '-sri', '--noconfirm'])
-
-        os.chdir(original_working_dir)
+        subprocess.run(
+            self.working_dir +
+            f'/bash/install_yay.sh "{username}" "{cmd_prefix}" "{password}"',
+            shell=True
+        )
 
     def install_aur_packages(self, packages):
         """install packages from AUR"""
