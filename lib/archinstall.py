@@ -651,7 +651,12 @@ class ArchInstall:
 
     def is_package_installed(self, package_name):
         """check whether package is installed"""
-        cmd_result = subprocess.run(self.cmd_prefix + [
+        username = self.settings['username']
+        cmd_prefix = (['arch-chroot', '-u', f'{username}', '/mnt']
+                      if self.live_system
+                      else [])
+
+        cmd_result = subprocess.run(cmd_prefix + [
             'pacman', '-Qi', package_name
         ], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
@@ -739,7 +744,14 @@ class ArchInstall:
         if not self.is_package_installed('yay'):
             self.install_yay_aur_helper()
 
-        subprocess.run(['yay', '-Syu', '--needed', '--noconfirm'] + packages)
+        username = self.settings['username']
+        cmd_prefix = (['arch-chroot', '-u', f'{username}', '/mnt']
+                      if self.live_system
+                      else [])
+
+        subprocess.run(
+            cmd_prefix + ['yay', '-Syu', '--needed', '--noconfirm'] + packages
+        )
 
     def install_aur_packages_from_file(self, file_name):
         """install AUR packages from file contain packages list"""
