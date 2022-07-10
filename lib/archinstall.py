@@ -750,7 +750,10 @@ class ArchInstall:
                       else [])
 
         subprocess.run(
-            cmd_prefix + ['yay', '-Syu', '--needed', '--noconfirm'] + packages
+            cmd_prefix + ['yay', '-Syu', '--needed', '--noconfirm'] + packages,
+            env=(dict(os.environ, HOME=f'/home/{username}')
+                 if self.live_system
+                 else None)
         )
 
     def install_aur_packages_from_file(self, file_name):
