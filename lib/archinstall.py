@@ -1059,7 +1059,8 @@ class ArchInstall:
 
     def configure_ibus_bamboo(self):
         """configure ibus-bamboo"""
-        self.install_aur_packages(['ibus-bamboo'])
+        if not self.is_package_installed('ibus-bamboo'):
+            self.install_aur_packages(['ibus-bamboo'])
 
         self.gnome_gsettings_set(
             'org.gnome.desktop.input-sources',
@@ -1145,10 +1146,16 @@ class ArchInstall:
     def configure_gedit(self):
         """configure gedit"""
         # make sure gedit and gedit-plugins is installed
-        self.install_packages(['gedit', 'gedit-plugins'])
+        if not (self.is_package_installed('gedit') and
+                self.is_package_installed('gedit-plugins')):
+            self.install_packages(['gedit', 'gedit-plugins'])
 
         # set theme to gnome
-        self.install_packages(['gnome-builder', 'gnome-builder-libide-docs'])
+        if not (self.is_package_installed('gnome-builder') and
+                self.is_package_installed('gnome-builder-libide-docs')):
+            self.install_packages(
+                ['gnome-builder', 'gnome-builder-libide-docs']
+            )
         self.gnome_gsettings_set(
             'org.gnome.gedit.preferences.editor',
             'scheme',
