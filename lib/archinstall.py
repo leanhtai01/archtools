@@ -808,7 +808,8 @@ class ArchInstall:
     def configure_gnome(self):
         """configure GNOME"""
         # set default monospace font
-        self.install_packages(['ttf-cascadia-code'])
+        if not self.is_package_installed('ttf-cascadia-code'):
+            self.install_packages(['ttf-cascadia-code'])
         self.gnome_gsettings_set(
             'org.gnome.desktop.interface',
             'monospace-font-name',
