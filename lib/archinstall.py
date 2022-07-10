@@ -1139,15 +1139,23 @@ class ArchInstall:
         # configure for Vietnamese input in Emacs
         self.install_aur_packages(['xorg-fonts-misc-otb'])
 
+        username = self.settings['username']
+        cmd_prefix = (['arch-chroot', '-u', f'{username}', '/mnt']
+                      if self.live_system
+                      else [])
+        custom_env = (dict(os.environ, HOME=f'/home/{username}')
+                      if self.live_system
+                      else None)
+
         # configure for user
-        subprocess.run([
+        subprocess.run(cmd_prefix + [
             'git', 'clone', 'https://github.com/leanhtai01/emacsconfig',
             f'/home/{self.settings["username"]}/.config/emacs'
-        ])
+        ], env=custom_env)
 
         # configure for root
-        subprocess.run([
-            'sudo', 'git', 'clone',
+        subprocess.run(self.cmd_prefix + [
+            'git', 'clone',
             'https://github.com/leanhtai01/emacsconfig',
             '/root/.config/emacs'
         ])
