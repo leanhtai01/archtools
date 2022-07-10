@@ -7,3 +7,5 @@ jetbrains-toolbox
 visual-studio-code-bin
 ventoy-bin
 virtualbox-ext-oracle
+minecraft-launcher
+itch-bin
