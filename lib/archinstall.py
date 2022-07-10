@@ -367,10 +367,6 @@ class ArchInstall:
         """install gpu drivers"""
         self.install_packages_from_file(f'{self.pkg_info}/intel.txt')
 
-    def install_pipewire(self):
-        """install pipewire"""
-        self.install_packages_from_file(f'{self.pkg_info}/pipewire.txt')
-
     def install_gnome_de(self):
         """install GNOME DE"""
         self.install_packages_from_file(f'{self.pkg_info}/gnome_de.txt')
@@ -672,7 +668,7 @@ class ArchInstall:
 
         return True if cmd_result.returncode == 0 else False
 
-    def configure_pipewire(self):
+    def install_pipewire(self):
         """configure sound server"""
         self.install_packages_from_file(f'{self.pkg_info}/pipewire.txt')
 
