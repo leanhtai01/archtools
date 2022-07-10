@@ -660,7 +660,8 @@ class ArchInstall:
 
     def is_flatpak_package_installed(self, package_id):
         """check whether flatpak package is installed"""
-        self.install_packages(['flatpak'])
+        if not self.is_package_installed('flatpak'):
+            return False
 
         cmd_result = subprocess.run([
             'flatpak', 'info', package_id
@@ -749,14 +750,16 @@ class ArchInstall:
 
     def install_flatpak_packages(self, package_ids):
         """install packages flatpak"""
-        self.install_packages(['flatpak'])
+        if not self.is_package_installed('flatpak'):
+            self.install_packages(['flatpak'])
 
         subprocess.run(['flatpak', 'update', '-y'])
 
         for package_id in package_ids:
-            subprocess.run([
-                'flatpak', 'install', package_id, '-y'
-            ])
+            if not self.is_flatpak_package_installed(package_id):
+                subprocess.run([
+                    'flatpak', 'install', package_id, '-y'
+                ])
 
     def install_flatpak_packages_from_file(self, file_name):
         """install flatpak packages from file"""
