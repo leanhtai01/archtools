@@ -1087,16 +1087,16 @@ class ArchInstall:
         """install VMware Workstation"""
         self.install_aur_packages(['vmware-workstation'])
 
-        subprocess.run([
-            'sudo', 'systemctl', 'enable', 'vmware-networks'
+        subprocess.run(self.cmd_prefix + [
+            'systemctl', 'enable', 'vmware-networks'
         ])
 
-        subprocess.run([
-            'sudo', 'systemctl', 'enable', 'vmware-usbarbitrator'
+        subprocess.run(self.cmd_prefix + [
+            'systemctl', 'enable', 'vmware-usbarbitrator'
         ])
 
-        subprocess.run([
-            'sudo', '/usr/lib/vmware/bin/vmware-vmx-debug',
+        subprocess.run(self.cmd_prefix + [
+            '/usr/lib/vmware/bin/vmware-vmx-debug',
             '--new-sn', 'ZF3R0-FHED2-M80TY-8QYGC-NPKYF'
         ])
 
