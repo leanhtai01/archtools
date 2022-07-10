@@ -676,34 +676,16 @@ class ArchInstall:
         """configure sound server"""
         self.install_packages_from_file(f'{self.pkg_info}/pipewire.txt')
 
-        pathlib.Path(f'{self.home_dir}/.config').mkdir(exist_ok=True)
+        username = self.settings['username']
+        cmd_prefix = (f'arch-chroot -u {username} /mnt '
+                      if self.live_system
+                      else '')
 
-        subprocess.run([
-            'cp', '-r', '/usr/share/pipewire', f'{self.home_dir}/.config'
-        ])
-
-        fileutils.multiple_replace_in_line(
-            f'{self.home_dir}/.config/pipewire/client.conf',
-            rf'.*{re.escape("#resample.quality")}.*',
-            [('#', ''), ('4', '15')]
+        subprocess.run(
+            self.working_dir +
+            f'/bash/configure_pipewire.sh "{username}" "{cmd_prefix}"',
+            shell=True
         )
-
-        fileutils.multiple_replace_in_line(
-            f'{self.home_dir}/.config/pipewire/pipewire-pulse.conf',
-            rf'.*{re.escape("#resample.quality")}.*',
-            [('#', ''), ('4', '15')]
-        )
-
-        fileutils.multiple_replace_in_line(
-            f'{self.home_dir}/.config/pipewire/media-session.d/' +
-            'media-session.conf',
-            rf'.*{re.escape("suspend-node")}.*',
-            [('suspend-node', '#suspend-node')]
-        )
-
-        subprocess.run([
-            'systemctl', '--user', 'enable', 'pipewire-media-session.service'
-        ])
 
     def configure_git(self):
         """configure git"""
