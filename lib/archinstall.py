@@ -249,6 +249,16 @@ class ArchInstall:
             [('# ', '')]
         )
 
+    def disable_sudo_password_prompt_timeout(self):
+        """disable sudo password prompt timeout"""
+        sudoers_path = '/mnt/etc/sudoers'
+
+        fileutils.backup(sudoers_path)
+
+        with open(sudoers_path, 'a') as writer:
+            writer.write('\n## Disable password prompt timeout\n')
+            writer.write('Defaults passwd_timeout=0\n')
+
     def increase_sudo_timestamp_timeout(self):
         """reduce the number of times re-enter password using sudo"""
         sudoers_path = '/mnt/etc/sudoers'
@@ -1224,6 +1234,7 @@ class ArchInstall:
         self.set_root_password()
         self.add_normal_user()
         self.allow_user_in_wheel_group_execute_any_command()
+        self.disable_sudo_password_prompt_timeout()
         self.increase_sudo_timestamp_timeout()
 
         if self.partition_layout == 'encrypted':
