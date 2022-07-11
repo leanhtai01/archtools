@@ -267,7 +267,10 @@ class ArchInstall:
 
         with open(sudoers_path, 'a') as writer:
             writer.write('\n## Set sudo timestamp timeout\n')
-            writer.write('Defaults timestamp_timeout=20\n')
+            writer.write(
+                'Defaults timestamp_timeout=' +
+                f'{self.settings["timeout_for_sudo"]}\n'
+            )
 
     def configure_mkinitcpio_for_encrypted_system(self):
         """configure mkinitcpio for encrypted system"""
