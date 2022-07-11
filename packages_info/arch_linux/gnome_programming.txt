@@ -1,0 +1,6 @@
+devhelp
+glade
+gnome-builder
+gnome-code-assistance
+gnome-devel-docs
+gnome-builder-libide-docs

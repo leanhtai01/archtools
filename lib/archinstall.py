@@ -490,6 +490,12 @@ class ArchInstall:
             f'{self.pkg_info}/javascript_programming.txt'
         )
 
+    def install_gnome_programming(self):
+        """install GNOME programming"""
+        self.install_packages_from_file(
+            f'{self.pkg_info}/gnome_programming.txt'
+        )
+
     def install_multimedia(self):
         """install multimedia"""
         self.install_packages_from_file(f'{self.pkg_info}/multimedia.txt')
