@@ -706,7 +706,8 @@ class ArchInstall:
     def configure_git(self):
         """configure git"""
         # make sure git is installed before configure
-        self.install_packages(['git'])
+        if not self.is_package_installed('git'):
+            self.install_packages(['git'])
 
         username = self.settings['username']
         cmd_prefix = (['arch-chroot', '-u', f'{username}', '/mnt']
@@ -1095,7 +1096,8 @@ class ArchInstall:
 
     def install_vmware_workstation(self):
         """install VMware Workstation"""
-        self.install_aur_packages(['vmware-workstation'])
+        if not self.is_package_installed('vmware-workstation'):
+            self.install_aur_packages(['vmware-workstation'])
 
         subprocess.run(self.cmd_prefix + [
             'systemctl', 'enable', 'vmware-networks'
@@ -1120,7 +1122,10 @@ class ArchInstall:
 
     def configure_ufw(self):
         """configure ufw"""
-        self.install_packages(['ufw', 'ufw-extras', 'gufw'])
+        if not (self.is_package_installed('ufw') and
+                self.is_package_installed('ufw-extras') and
+                self.is_package_installed('gufw')):
+            self.install_packages(['ufw', 'ufw-extras', 'gufw'])
 
         subprocess.run(self.cmd_prefix + [
             'systemctl', 'enable', 'ufw'
@@ -1133,7 +1138,8 @@ class ArchInstall:
     def configure_emacs(self):
         """configure Emacs"""
         # make sure emacs installed
-        self.install_packages(['emacs'])
+        if not self.is_package_installed('emacs'):
+            self.install_packages(['emacs'])
 
         # install font use in Emacs config
         self.install_packages(['ttf-cascadia-code'])
