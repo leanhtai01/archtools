@@ -9,3 +9,4 @@ ventoy-bin
 virtualbox-ext-oracle
 minecraft-launcher
 itch-bin
+vmware-workstation
