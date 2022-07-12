@@ -4,3 +4,4 @@ kchmviewer
 foliate
 okular
 kolourpaint
+telegram-desktop
