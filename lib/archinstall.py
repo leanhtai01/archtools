@@ -752,15 +752,17 @@ class ArchInstall:
             self.install_yay_aur_helper()
 
         username = self.settings['username']
-        cmd_prefix = (['arch-chroot', '-u', f'{username}', '/mnt']
+        password = self.settings['user_password']
+        cmd_prefix = (f'arch-chroot -u {username} /mnt '
                       if self.live_system
-                      else [])
+                      else '')
+        packages = ' '.join(packages)
 
         subprocess.run(
-            cmd_prefix + ['yay', '-Syu', '--needed', '--noconfirm'] + packages,
-            env=(dict(os.environ, HOME=f'/home/{username}')
-                 if self.live_system
-                 else None)
+            self.working_dir +
+            f'/bash/install_aur_packages.sh ' +
+            f'"{username}" "{cmd_prefix}" "{password}" "{packages}"',
+            shell=True
         )
 
     def install_aur_packages_from_file(self, file_name):
