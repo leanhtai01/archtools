@@ -5,3 +5,6 @@ foliate
 okular
 kolourpaint
 telegram-desktop
+librecad
+geogebra
+gnucash

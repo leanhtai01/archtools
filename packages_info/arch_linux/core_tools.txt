@@ -17,3 +17,5 @@ lm_sensors
 ntfs-3g
 gparted
 exfatprogs
+pdftk
+youtube-dl
