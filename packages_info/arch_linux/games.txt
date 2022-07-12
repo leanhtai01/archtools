@@ -8,3 +8,6 @@ hedgewars
 wesnoth
 supertuxkart
 discord
+openttd
+openttd-opengfx
+openttd-opensfx
