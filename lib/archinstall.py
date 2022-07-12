@@ -1120,6 +1120,14 @@ class ArchInstall:
             'appindicatorsupport@rgcjonas.gmail.com'
         ])
 
+    def enable_gnome_vitals_extension(self):
+        """enable GNOME vitals extension"""
+        subprocess.run([
+            'gnome-extensions',
+            'enable',
+            'Vitals@CoreCoding.com'
+        ])
+
     def configure_ufw(self):
         """configure ufw"""
         if not (self.is_package_installed('ufw') and
