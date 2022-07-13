@@ -778,6 +778,9 @@ class ArchInstall:
                 if os.path.ismount('/mnt/dev'):
                     subprocess.run('umount /mnt/dev', shell=True)
 
+                if os.path.ismount('/mnt/tmp'):
+                    subprocess.run('umount /mnt/tmp', shell=True)
+
     def install_aur_packages_from_file(self, file_name):
         """install AUR packages from file contain packages list"""
         packages = self.get_packages_from_file(file_name)
