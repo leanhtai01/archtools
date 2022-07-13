@@ -8,3 +8,4 @@ telegram-desktop
 librecad
 geogebra
 gnucash
+thunderbird
