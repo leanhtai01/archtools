@@ -11,3 +11,4 @@ minecraft-launcher
 itch-bin
 vmware-workstation
 gnome-shell-extension-vitals-git
+logisim-evolution
