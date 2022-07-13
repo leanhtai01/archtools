@@ -751,23 +751,32 @@ class ArchInstall:
         if not self.is_package_installed('yay'):
             self.install_yay_aur_helper()
 
-        username = self.settings['username']
-        password = self.settings['user_password']
-        cmd_prefix = (f'arch-chroot -u {username} /mnt '
-                      if self.live_system
-                      else '')
-        packages = ' '.join(packages)
-
-        subprocess.run(
-            self.working_dir +
-            f'/bash/install_aur_packages.sh ' +
-            f'"{username}" "{cmd_prefix}" "{password}" "{packages}"',
-            shell=True
+        # remove installed packages from list
+        packages = list(
+            filter(
+                lambda package: not self.is_package_installed(package),
+                packages
+            )
         )
 
-        if self.live_system:
-            if os.path.ismount('/mnt/dev'):
-                subprocess.run('umount /mnt/dev', shell=True)
+        if packages:
+            username = self.settings['username']
+            password = self.settings['user_password']
+            cmd_prefix = (f'arch-chroot -u {username} /mnt '
+                          if self.live_system
+                          else '')
+            packages = ' '.join(packages)
+
+            subprocess.run(
+                self.working_dir +
+                f'/bash/install_aur_packages.sh ' +
+                f'"{username}" "{cmd_prefix}" "{password}" "{packages}"',
+                shell=True
+            )
+
+            if self.live_system:
+                if os.path.ismount('/mnt/dev'):
+                    subprocess.run('umount /mnt/dev', shell=True)
 
     def install_aur_packages_from_file(self, file_name):
         """install AUR packages from file contain packages list"""
