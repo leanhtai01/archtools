@@ -786,6 +786,18 @@ class ArchInstall:
         packages = self.get_packages_from_file(file_name)
         self.install_aur_packages(packages)
 
+    def install_disc_image_tools(self):
+        """install disc image tools"""
+        self.install_packages(
+            ['cdrtools', 'libcdio', 'cdemu-client', 'vhba-module-dkms']
+        )
+
+        subprocess.run(self.cmd_prefix + [
+            'modprobe', '-a', 'sg', 'sr_mod', 'vhba'
+        ])
+
+        self.install_aur_packages(['gcdemu'])
+
     def install_packettracer(self):
         """install Packet Tracer"""
         self.install_aur_packages(['packettracer'])
