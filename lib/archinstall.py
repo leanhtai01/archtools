@@ -774,6 +774,27 @@ class ArchInstall:
         packages = self.get_packages_from_file(file_name)
         self.install_aur_packages(packages)
 
+    def install_packettracer(self):
+        """install Packet Tracer"""
+        self.install_aur_packages(['packettracer'])
+
+        subprocess.run(
+            f'cp {self.working_dir}/local_repos/' +
+            'arch_linux/CiscoPacketTracer* ' +
+            f'{self.path_prefix}/{self.home_dir}/.cache/yay/packettracer',
+            shell=True
+        )
+
+        if self.live_system:
+            username = self.settings['username']
+
+            subprocess.run(self.cmd_prefix + [
+                'chown', '-R', f'{username}:{username}',
+                f'/home/{username}/.cache/yay/packettracer/'
+            ])
+
+        self.install_aur_packages(['packettracer'])
+
     def install_flatpak_packages(self, package_ids):
         """install packages flatpak"""
         if not self.is_package_installed('flatpak'):
