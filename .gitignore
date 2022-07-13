@@ -12,3 +12,6 @@ tmp.py
 
 # Byte-compiled / optimized
 __pycache__/
+
+# Local repository
+local_repos
