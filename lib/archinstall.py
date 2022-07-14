@@ -908,6 +908,13 @@ class ArchInstall:
             'Cascadia Mono 12'
         )
 
+        # set font-antialiasing to rgba
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.interface',
+            'font-antialiasing',
+            'rgba'
+        )
+
         # switch applications only in current workspace
         self.gnome_gsettings_set(
             'org.gnome.shell.app-switcher',
