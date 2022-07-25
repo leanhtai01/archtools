@@ -2,3 +2,4 @@ jdk-openjdk
 openjdk-doc
 java-openjfx
 maven
+openjdk-src
