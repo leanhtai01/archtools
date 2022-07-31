@@ -26,3 +26,4 @@ xdg-user-dirs-gtk
 gnome-usage
 gnome-todo
 gnome-shell-extension-appindicator
+alacarte
