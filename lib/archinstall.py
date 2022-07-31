@@ -1300,26 +1300,40 @@ class ArchInstall:
                                 'quickopen', 'findinfiles', 'externaltools']"
         )
 
+    def execute_method(self, method, *args):
+        """execute another method then release resources if needed"""
+        method(*args)
+        if self.live_system:
+            if os.path.ismount('/mnt/dev'):
+                subprocess.run('umount /mnt/dev', shell=True)
+
+            if os.path.ismount('/mnt/tmp'):
+                subprocess.run('umount /mnt/tmp', shell=True)
+
     def install_base_system(self):
         """install base system"""
-        self.disable_auto_generate_mirrorlist()
-        self.update_system_clock()
-        self.setup_mirrors()
-        self.prepare_disk()
-        self.install_essential_packages()
-        self.configure_fstab()
-        self.configure_time_zone()
-        self.configure_localization()
-        self.enable_multilib()
-        self.configure_network()
-        self.set_root_password()
-        self.add_normal_user()
-        self.allow_user_in_wheel_group_execute_any_command()
-        self.disable_sudo_password_prompt_timeout()
-        self.increase_sudo_timestamp_timeout()
+        self.execute_method(self.disable_auto_generate_mirrorlist)
+        self.execute_method(self.update_system_clock)
+        self.execute_method(self.setup_mirrors)
+        self.execute_method(self.prepare_disk)
+        self.execute_method(self.install_essential_packages)
+        self.execute_method(self.configure_fstab)
+        self.execute_method(self.configure_time_zone)
+        self.execute_method(self.configure_localization)
+        self.execute_method(self.enable_multilib)
+        self.execute_method(self.configure_network)
+        self.execute_method(self.set_root_password)
+        self.execute_method(self.add_normal_user)
+        self.execute_method(
+            self.allow_user_in_wheel_group_execute_any_command
+        )
+        self.execute_method(self.disable_sudo_password_prompt_timeout)
+        self.execute_method(self.increase_sudo_timestamp_timeout)
 
         if self.partition_layout == 'encrypted':
-            self.configure_mkinitcpio_for_encrypted_system()
+            self.execute_method(
+                self.configure_mkinitcpio_for_encrypted_system
+            )
 
-        self.configure_mkinitcpio_for_hibernation()
-        self.configure_systemd_bootloader()
+        self.execute_method(self.configure_mkinitcpio_for_hibernation)
+        self.execute_method(self.configure_systemd_bootloader)
