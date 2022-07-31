@@ -1128,7 +1128,7 @@ class ArchInstall:
     def install_games(self):
         """install games"""
         self.install_packages_with_all_optional_deps(
-            ['lutris', 'wine']
+            ['lutris', 'wine', 'winetricks']
         )
 
         self.install_packages_from_file(
