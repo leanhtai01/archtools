@@ -8,7 +8,6 @@ visual-studio-code-bin
 ventoy-bin
 virtualbox-ext-oracle
 minecraft-launcher
-itch-bin
 vmware-workstation
 gnome-shell-extension-vitals-git
 logisim-evolution
