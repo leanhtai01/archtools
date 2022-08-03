@@ -995,6 +995,13 @@ class ArchInstall:
             'true'
         )
 
+        # set theme to dark
+        self.gnome_gsettings_set(
+            'org.gnome.desktop.interface',
+            'color-scheme',
+            'prefer-dark'
+        )
+
     def configure_auto_mount_luks_encrypted_devices(self):
         """configure auto mount LUKS encrypted devices"""
         path_prefix = '/' if self.path_prefix == '' else self.path_prefix
