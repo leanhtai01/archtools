@@ -1,5 +1,4 @@
 com.belmoussaoui.Authenticator
-org.goldendict.GoldenDict
 us.zoom.Zoom
 io.github.hakuneko.HakuNeko
 org.flightgear.FlightGear
