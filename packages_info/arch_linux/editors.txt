@@ -2,3 +2,4 @@ gedit
 gedit-plugins
 emacs
 gvim
+bash-language-server
