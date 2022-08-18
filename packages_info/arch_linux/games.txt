@@ -4,17 +4,4 @@ kigo
 bovo
 gnome-chess
 gnuchess
-hedgewars
-wesnoth
-supertuxkart
 discord
-openttd
-openttd-opengfx
-openttd-opensfx
-mari0
-0ad
-supertux
-teeworlds
-minetest
-minetest-server
-xonotic
