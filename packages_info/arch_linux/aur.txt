@@ -1,6 +1,6 @@
 ibus-bamboo
 google-chrome
-chrome-gnome-shell
+gnome-browser-connector
 sublime-merge
 dislocker
 jetbrains-toolbox
