@@ -3,3 +3,4 @@ openjdk-doc
 java-openjfx
 maven
 openjdk-src
+netbeans
