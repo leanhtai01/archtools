@@ -1340,6 +1340,15 @@ class ArchInstall:
             shell=True
         )
 
+    def install_snapd(self):
+        """install snapd"""
+        if not self.is_package_installed('snapd'):
+            self.install_aur_packages(['snapd'])
+
+        self.systemctl_enable('apparmor.service')
+        self.systemctl_enable('snapd.apparmor.service')
+        self.systemctl_enable('snapd.socket')
+
     def install_base_system(self):
         """install base system"""
         self.execute_method(self.disable_auto_generate_mirrorlist)
