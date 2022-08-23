@@ -1317,6 +1317,29 @@ class ArchInstall:
             if os.path.ismount('/mnt/tmp'):
                 subprocess.run('umount /mnt/tmp', shell=True)
 
+    def install_fcitx5_bamboo_git(self):
+        """install fcitx5-bamboo-git"""
+        if not self.is_package_installed('fcitx5-bamboo-git'):
+            self.install_aur_packages(['fcitx5-bamboo-git'])
+
+        # install input method module
+        self.install_packages(['fcitx5-qt', 'fcitx5-gtk'])
+
+        # install configuration tool
+        self.install_packages(['fcitx5-configtool'])
+
+        # set environment variables
+        username = self.settings['username']
+        cmd_prefix = (f'arch-chroot -u {username} /mnt '
+                      if self.live_system
+                      else '')
+
+        subprocess.run(
+            self.working_dir +
+            f'/bash/configure_fcitx5.sh "{username}" "{cmd_prefix}"',
+            shell=True
+        )
+
     def install_base_system(self):
         """install base system"""
         self.execute_method(self.disable_auto_generate_mirrorlist)
