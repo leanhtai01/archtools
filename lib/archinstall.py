@@ -492,6 +492,9 @@ class ArchInstall:
 
     def install_gnome_programming(self):
         """install GNOME programming"""
+        if self.settings['desktop_environment'] != 'GNOME':
+            return
+
         self.install_packages_from_file(
             f'{self.pkg_info}/gnome_programming.txt'
         )
