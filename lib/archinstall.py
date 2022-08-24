@@ -388,6 +388,15 @@ class ArchInstall:
         """install KDE Plasma DE"""
         self.install_packages_from_file(f'{self.pkg_info}/kde_plasma_de.txt')
 
+    def install_desktop_environment(self):
+        """install desktop environment based on user settings"""
+        de = self.settings['desktop_environment']
+
+        if de == 'GNOME':
+            self.install_gnome_de()
+        elif de == 'Plasma':
+            self.install_kde_plasma_de()
+
     def enable_bluetooth_service(self):
         """enable bluetooth service"""
         subprocess.run(self.cmd_prefix + [
