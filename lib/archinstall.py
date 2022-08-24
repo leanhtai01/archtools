@@ -1349,6 +1349,37 @@ class ArchInstall:
         self.systemctl_enable('snapd.apparmor.service')
         self.systemctl_enable('snapd.socket')
 
+    def install_tmcbeans_from_snap(self):
+        """install TMCBeans from Snap"""
+        if self.live_system:
+            print('Must be install outside live system!')
+        elif not self.is_package_installed('snapd'):
+            print('snapd must be install first!')
+        else:
+            subprocess.run(
+                'sudo systemctl restart snapd.seeded.service', shell=True
+            )
+
+            # updating snap
+            subprocess.run(
+                'sudo snap refresh', shell=True
+            )
+
+            # must be use jdk11 for TMCBeans to run
+            self.install_packages(['jdk11-openjdk'])
+            subprocess.run(
+                'sudo archlinux-java set java-11-openjdk', shell=True
+            )
+
+            # allow the installation of classic snaps
+            subprocess.run(
+                'sudo ln -s /var/lib/snapd/snap /snap', shell=True
+            )
+
+            subprocess.run(
+                'sudo snap install --classic tmcbeans', shell=True
+            )
+
     def install_base_system(self):
         """install base system"""
         self.execute_method(self.disable_auto_generate_mirrorlist)
