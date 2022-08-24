@@ -27,3 +27,5 @@ gnome-usage
 gnome-todo
 gnome-shell-extension-appindicator
 alacarte
+gedit
+gedit-plugins
