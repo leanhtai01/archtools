@@ -1255,6 +1255,9 @@ class ArchInstall:
 
     def configure_gedit(self):
         """configure gedit"""
+        if self.settings['desktop_environment'] != 'GNOME':
+            return
+
         # make sure gedit and gedit-plugins is installed
         if not (self.is_package_installed('gedit') and
                 self.is_package_installed('gedit-plugins')):
