@@ -403,13 +403,15 @@ class ArchInstall:
             'systemctl', 'enable', 'bluetooth'
         ])
 
-    def configure_display_manager(self, display_manager):
+    def configure_display_manager(self):
         """configure display manager"""
-        if display_manager == 'gdm':
+        de = self.settings['desktop_environment']
+
+        if de == 'GNOME':
             subprocess.run(self.cmd_prefix + [
                 'systemctl', 'enable', 'gdm'
             ])
-        elif display_manager == 'sddm':
+        elif de == 'Plasma':
             subprocess.run(self.cmd_prefix + [
                 'systemctl', 'enable', 'sddm'
             ])
