@@ -12,7 +12,7 @@ arch_install.execute_method(
 )
 arch_install.execute_method(arch_install.install_intel_drivers)
 arch_install.execute_method(arch_install.install_pipewire)
-arch_install.execute_method(arch_install.install_gnome_de)
+arch_install.execute_method(arch_install.install_desktop_environment)
 arch_install.execute_method(arch_install.enable_bluetooth_service)
 arch_install.execute_method(arch_install.configure_display_manager, 'gdm')
 arch_install.execute_method(arch_install.install_fonts)
