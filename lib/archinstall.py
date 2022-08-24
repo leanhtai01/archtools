@@ -1354,6 +1354,13 @@ class ArchInstall:
         elif de == 'Plasma':
             self.install_fcitx5_bamboo_git()
 
+    def configure_input_method(self):
+        """configure input method based on desktop environment"""
+        de = self.settings['desktop_environment']
+
+        if de == 'GNOME':
+            self.configure_ibus_bamboo()
+
     def install_snapd(self):
         """install snapd"""
         if not self.is_package_installed('snapd'):
