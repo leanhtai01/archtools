@@ -8,7 +8,6 @@ unarchiver
 bash-completion
 flatpak
 tree
-ibus
 archiso
 rclone
 rsync
