@@ -1340,6 +1340,11 @@ class ArchInstall:
             shell=True
         )
 
+    def install_ibus_bamboo(self):
+        """install ibus-bamboo"""
+        if not self.is_package_installed('ibus-bamboo'):
+            self.install_aur_packages(['ibus-bamboo'])
+
     def install_snapd(self):
         """install snapd"""
         if not self.is_package_installed('snapd'):
