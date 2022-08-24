@@ -1,4 +1,3 @@
-ibus-bamboo
 google-chrome
 gnome-browser-connector
 sublime-merge
