@@ -616,6 +616,9 @@ class ArchInstall:
 
     def make_gnome_shortcuts(self):
         """make some GNOME shortcuts for frequently program"""
+        if self.settings['desktop_environment'] != 'GNOME':
+            return
+
         self.clear_all_gnome_custom_shortcuts()
 
         if self.is_package_installed('nautilus'):
@@ -878,6 +881,9 @@ class ArchInstall:
 
     def configure_gnome(self):
         """configure GNOME"""
+        if self.settings['desktop_environment'] != 'GNOME':
+            return
+
         # set default monospace font
         if not self.is_package_installed('ttf-cascadia-code'):
             self.install_packages(['ttf-cascadia-code'])
@@ -1179,6 +1185,9 @@ class ArchInstall:
 
     def enable_gnome_appindicator(self):
         """enable GNOME AppIndicator"""
+        if self.settings['desktop_environment'] != 'GNOME':
+            return
+
         subprocess.run([
             'gnome-extensions',
             'enable',
@@ -1187,6 +1196,9 @@ class ArchInstall:
 
     def enable_gnome_vitals_extension(self):
         """enable GNOME vitals extension"""
+        if self.settings['desktop_environment'] != 'GNOME':
+            return
+
         subprocess.run([
             'gnome-extensions',
             'enable',
