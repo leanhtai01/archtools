@@ -1345,6 +1345,15 @@ class ArchInstall:
         if not self.is_package_installed('ibus-bamboo'):
             self.install_aur_packages(['ibus-bamboo'])
 
+    def install_input_method(self):
+        """install input method based on desktop environment"""
+        de = self.settings['desktop_environment']
+
+        if de == 'GNOME':
+            self.install_ibus_bamboo()
+        elif de == 'Plasma':
+            self.install_fcitx5_bamboo_git()
+
     def install_snapd(self):
         """install snapd"""
         if not self.is_package_installed('snapd'):
