@@ -42,5 +42,6 @@
             "mount_point_name": "mount_point",
             "key": "123"
         }
-    ]
+    ],
+    "desktop_environment": "GNOME"
 }
