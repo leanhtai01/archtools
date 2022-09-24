@@ -1,5 +1,4 @@
 git
-dia
 github-cli
 kdiff3
 valgrind
