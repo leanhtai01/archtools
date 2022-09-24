@@ -30,3 +30,4 @@ breeze-gtk
 kde-gtk-config
 gnome-keyring
 krusader
+kwalletmanager
