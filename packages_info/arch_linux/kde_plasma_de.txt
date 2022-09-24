@@ -28,3 +28,4 @@ plasma-vault
 discover
 breeze-gtk
 kde-gtk-config
+gnome-keyring
