@@ -29,3 +29,4 @@ gnome-shell-extension-appindicator
 alacarte
 gedit
 gedit-plugins
+doublecmd-qt5

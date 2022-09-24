@@ -1,4 +1,3 @@
-doublecmd-qt5
 keepassxc
 expect
 pacman-contrib
