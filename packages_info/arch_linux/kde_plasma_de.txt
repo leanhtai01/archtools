@@ -31,3 +31,4 @@ kde-gtk-config
 gnome-keyring
 krusader
 kwalletmanager
+krename
