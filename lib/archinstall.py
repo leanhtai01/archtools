@@ -1346,10 +1346,9 @@ class ArchInstall:
             if os.path.ismount('/mnt/tmp'):
                 subprocess.run('umount /mnt/tmp', shell=True)
 
-    def install_fcitx5_bamboo_git(self):
-        """install fcitx5-bamboo-git"""
-        if not self.is_package_installed('fcitx5-bamboo-git'):
-            self.install_aur_packages(['fcitx5-bamboo-git'])
+    def install_fcitx5_bamboo(self):
+        """install fcitx5-bamboo"""
+        self.install_packages(['fcitx5-bamboo'])
 
         # install input method module
         self.install_packages(['fcitx5-qt', 'fcitx5-gtk'])
@@ -1381,7 +1380,7 @@ class ArchInstall:
         if de == 'GNOME':
             self.install_ibus_bamboo()
         elif de == 'Plasma':
-            self.install_fcitx5_bamboo_git()
+            self.install_fcitx5_bamboo()
 
     def configure_input_method(self):
         """configure input method based on desktop environment"""
