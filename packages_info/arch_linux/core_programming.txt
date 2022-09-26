@@ -2,3 +2,4 @@ git
 github-cli
 kdiff3
 valgrind
+umbrello
