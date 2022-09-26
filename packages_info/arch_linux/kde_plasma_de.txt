@@ -32,3 +32,4 @@ gnome-keyring
 krusader
 kwalletmanager
 krename
+khelpcenter
