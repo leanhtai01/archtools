@@ -2,6 +2,7 @@ jdk-openjdk
 openjdk-doc
 java-openjfx
 java-openjfx-doc
+java-openjfx-src
 maven
 openjdk-src
 netbeans
