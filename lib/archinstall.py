@@ -140,8 +140,7 @@ class ArchInstall:
 
     def configure_fstab(self):
         """configure fstab"""
-        with open('/mnt/etc/fstab', 'a') as writer:
-            subprocess.run(['genfstab', '-U', '/mnt'], stdout=writer)
+        subprocess.run('genfstab -U /mnt >> /mnt/etc/fstab', shell=True)
 
     def configure_time_zone(self):
         """configure time zone"""
