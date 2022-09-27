@@ -1,5 +1,4 @@
 google-chrome
-gnome-browser-connector
 sublime-merge
 dislocker
 jetbrains-toolbox
@@ -8,7 +7,6 @@ ventoy-bin
 virtualbox-ext-oracle
 minecraft-launcher
 vmware-workstation
-gnome-shell-extension-vitals-git
 logisim-evolution
 goldendict-git
 spring-tool-suite

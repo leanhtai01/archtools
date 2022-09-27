@@ -383,6 +383,14 @@ class ArchInstall:
         """install GNOME DE"""
         self.install_packages_from_file(f'{self.pkg_info}/gnome_de.txt')
 
+        # package to install GNOME extensions from browser
+        if not self.is_package_installed('gnome-browser-connector'):
+            self.install_aur_packages(['gnome-browser-connector'])
+
+        # GNOME extensions display hardware's information
+        if not self.is_package_installed('gnome-shell-extension-vitals-git'):
+            self.install_aur_packages(['gnome-shell-extension-vitals-git'])
+
     def install_kde_plasma_de(self):
         """install KDE Plasma DE"""
         self.install_packages_from_file(f'{self.pkg_info}/kde_plasma_de.txt')
@@ -1220,10 +1228,12 @@ class ArchInstall:
 
     def configure_ufw(self):
         """configure ufw"""
-        if not (self.is_package_installed('ufw') and
-                self.is_package_installed('ufw-extras') and
-                self.is_package_installed('gufw')):
-            self.install_packages(['ufw', 'ufw-extras', 'gufw'])
+        self.install_packages(['ufw', 'ufw-extras'])
+
+        # only install gufw on GNOME
+        if self.settings['desktop_environment'] == 'GNOME':
+            if not self.is_package_installed('gufw'):
+                self.install_packages(['gufw'])
 
         subprocess.run(self.cmd_prefix + [
             'systemctl', 'enable', 'ufw'
