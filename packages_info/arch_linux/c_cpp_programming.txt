@@ -2,3 +2,7 @@ clang
 llvm
 lldb
 cmake
+qt6-base
+qt6-doc
+qtcreator
+kdevelop
