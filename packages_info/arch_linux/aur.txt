@@ -12,3 +12,4 @@ goldendict-git
 spring-tool-suite
 authenticator
 zoom
+hakuneko-desktop
