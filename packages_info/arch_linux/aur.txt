@@ -11,3 +11,4 @@ logisim-evolution
 goldendict-git
 spring-tool-suite
 authenticator
+zoom
