@@ -10,3 +10,4 @@ vmware-workstation
 logisim-evolution
 goldendict-git
 spring-tool-suite
+authenticator

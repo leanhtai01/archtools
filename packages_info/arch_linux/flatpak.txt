@@ -1,3 +1,2 @@
-com.belmoussaoui.Authenticator
 us.zoom.Zoom
 io.github.hakuneko.HakuNeko
