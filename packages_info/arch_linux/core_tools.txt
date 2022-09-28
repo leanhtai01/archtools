@@ -19,5 +19,4 @@ pdftk
 youtube-dl
 ufw
 ufw-extras
-gufw
 filezilla
