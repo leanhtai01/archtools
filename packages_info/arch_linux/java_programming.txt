@@ -7,4 +7,5 @@ java-openjfx-src
 jdk17-openjdk
 java17-openjfx
 maven
-netbeans
+gradle
+gradle-doc
