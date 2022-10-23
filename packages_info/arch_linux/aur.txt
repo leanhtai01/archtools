@@ -10,3 +10,4 @@ logisim-evolution
 goldendict-git
 authenticator
 zoom
+teams
