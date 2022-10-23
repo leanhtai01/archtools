@@ -6,10 +6,7 @@ visual-studio-code-bin
 ventoy-bin
 virtualbox-ext-oracle
 minecraft-launcher
-vmware-workstation
 logisim-evolution
 goldendict-git
-spring-tool-suite
 authenticator
 zoom
-hakuneko-desktop
