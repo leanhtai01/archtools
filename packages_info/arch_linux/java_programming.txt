@@ -4,9 +4,6 @@ openjdk-src
 java-openjfx
 java-openjfx-doc
 java-openjfx-src
-jdk8-openjdk
-jdk11-openjdk
-java11-openjfx
 jdk17-openjdk
 java17-openjfx
 maven
