@@ -11,3 +11,4 @@ python-docs
 autopep8
 python-requests
 python-beautifulsoup4
+pycharm-community-edition
