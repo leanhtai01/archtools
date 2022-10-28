@@ -11,3 +11,4 @@ goldendict-git
 authenticator
 zoom
 teams
+postman-bin
