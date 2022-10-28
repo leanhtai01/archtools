@@ -657,11 +657,6 @@ class ArchInstall:
                 'Emacs', '<Primary><Alt>e', 'emacs'
             )
 
-        if self.is_package_installed('doublecmd-qt5'):
-            self.add_gnome_shortcut(
-                'Double Commander', '<Primary><Alt>k', 'doublecmd'
-            )
-
         if self.is_package_installed('google-chrome'):
             self.add_gnome_shortcut(
                 'Google Chrome', '<Primary><Alt>c', 'google-chrome-stable'
