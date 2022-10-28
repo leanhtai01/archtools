@@ -657,13 +657,6 @@ class ArchInstall:
                 'Emacs', '<Primary><Alt>e', 'emacs'
             )
 
-            # re-define lockscreen shortcut to use Super in emacs-lsp
-            self.gnome_gsettings_set(
-                'org.gnome.settings-daemon.plugins.media-keys',
-                'screensaver',
-                "['<Primary><Alt>l']"
-            )
-
         if self.is_package_installed('doublecmd-qt5'):
             self.add_gnome_shortcut(
                 'Double Commander', '<Primary><Alt>k', 'doublecmd'
