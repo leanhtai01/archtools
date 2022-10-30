@@ -9,4 +9,3 @@ java17-openjfx
 maven
 gradle
 gradle-doc
-intellij-idea-community-edition
