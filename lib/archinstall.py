@@ -1275,10 +1275,9 @@ class ArchInstall:
             self.install_packages(['gedit', 'gedit-plugins'])
 
         # set theme to gnome
-        if not (self.is_package_installed('gnome-builder') and
-                self.is_package_installed('gnome-builder-libide-docs')):
+        if not (self.is_package_installed('gnome-builder')):
             self.install_packages(
-                ['gnome-builder', 'gnome-builder-libide-docs']
+                ['gnome-builder']
             )
         self.gnome_gsettings_set(
             'org.gnome.gedit.preferences.editor',
