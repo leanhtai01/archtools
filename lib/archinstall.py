@@ -1306,13 +1306,6 @@ class ArchInstall:
             'uint32 4'
         )
 
-        # display overview map
-        self.gnome_gsettings_set(
-            'org.gnome.gedit.preferences.editor',
-            'display-overview-map',
-            'true'
-        )
-
         # set background pattern
         self.gnome_gsettings_set(
             'org.gnome.gedit.preferences.editor',
