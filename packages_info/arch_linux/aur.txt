@@ -13,3 +13,4 @@ teams
 postman-bin
 neo4j-desktop
 nvm
+allure-commandline
