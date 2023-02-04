@@ -1,1 +1,2 @@
 org.goldendict.GoldenDict
+com.belmoussaoui.Authenticator
