@@ -6,6 +6,9 @@ java-openjfx-doc
 java-openjfx-src
 jdk17-openjdk
 java17-openjfx
+jdk11-openjdk
+java11-openjfx
+jdk8-openjdk
 maven
 gradle
 gradle-doc
