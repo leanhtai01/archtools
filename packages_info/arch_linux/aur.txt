@@ -5,7 +5,6 @@ jetbrains-toolbox
 visual-studio-code-bin
 visual-studio-code-insiders-bin
 ventoy-bin
-virtualbox-ext-oracle
 minecraft-launcher
 logisim-evolution
 teams
