@@ -8,7 +8,6 @@ ventoy-bin
 virtualbox-ext-oracle
 minecraft-launcher
 logisim-evolution
-zoom
 teams
 postman-bin
 neo4j-desktop
