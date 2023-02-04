@@ -13,3 +13,4 @@ zoom
 teams
 postman-bin
 neo4j-desktop
+nvm
