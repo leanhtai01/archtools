@@ -6,4 +6,7 @@ arch_install.execute_method(arch_install.configure_gnome)
 arch_install.execute_method(arch_install.make_gnome_shortcuts)
 arch_install.execute_method(arch_install.configure_input_method)
 arch_install.execute_method(arch_install.configure_gedit)
-arch_install.execute_method(arch_install.install_flatpak_packages_from_file)
+arch_install.execute_method(
+    arch_install.install_flatpak_packages_from_file,
+    'packages_info/arch_linux/flatpak.txt'
+)
