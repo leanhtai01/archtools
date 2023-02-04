@@ -7,7 +7,6 @@ ventoy-bin
 virtualbox-ext-oracle
 minecraft-launcher
 logisim-evolution
-goldendict-git
 authenticator
 zoom
 teams
