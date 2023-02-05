@@ -5,7 +5,7 @@ from lib.archinstall import ArchInstall
 arch_install = ArchInstall('settings.json')
 
 arch_install.execute_method(arch_install.connect_to_wifi)
-time.sleep(5)
+time.sleep(60)
 arch_install.execute_method(arch_install.install_base_system)
 arch_install.execute_method(
     arch_install.configure_auto_mount_luks_encrypted_devices
