@@ -20,3 +20,4 @@ youtube-dl
 ufw
 ufw-extras
 filezilla
+texlive-most
