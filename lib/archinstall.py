@@ -379,6 +379,10 @@ class ArchInstall:
         """install gpu drivers"""
         self.install_packages_from_file(f'{self.pkg_info}/intel.txt')
 
+    def install_other_packages(self):
+        """install other packages"""
+        self.install_packages_from_file(f'{self.pkg_info}/other.txt')
+
     def install_gnome_de(self):
         """install GNOME DE"""
         self.install_packages_from_file(f'{self.pkg_info}/gnome_de.txt')

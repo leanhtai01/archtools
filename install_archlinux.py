@@ -7,10 +7,8 @@ arch_install = ArchInstall('settings.json')
 arch_install.execute_method(arch_install.connect_to_wifi)
 time.sleep(60)
 arch_install.execute_method(arch_install.install_base_system)
-arch_install.execute_method(
-    arch_install.configure_auto_mount_luks_encrypted_devices
-)
 arch_install.execute_method(arch_install.install_intel_drivers)
+arch_install.execute_method(arch_install.install_other_packages)
 arch_install.execute_method(arch_install.install_pipewire)
 arch_install.execute_method(arch_install.install_desktop_environment)
 arch_install.execute_method(arch_install.enable_bluetooth_service)
