@@ -1,2 +1,3 @@
 thermald
 sof-firmware
+fprintd
