@@ -30,3 +30,4 @@ alacarte
 gedit
 gedit-plugins
 gnome-sound-recorder
+power-profiles-daemon
