@@ -37,6 +37,5 @@ arch_install.execute_method(
 arch_install.execute_method(arch_install.install_snapd)
 arch_install.execute_method(arch_install.install_input_method)
 arch_install.execute_method(arch_install.install_disc_image_tools)
-arch_install.execute_method(arch_install.configure_git)
 arch_install.execute_method(arch_install.configure_ufw)
 arch_install.execute_method(arch_install.configure_emacs)
