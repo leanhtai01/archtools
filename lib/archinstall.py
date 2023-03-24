@@ -1171,6 +1171,15 @@ class ArchInstall:
             'true'
         )
 
+    def configure_thermald(self):
+        """configure thermald"""
+        if not self.is_package_installed('thermald'):
+            self.install_packages(['thermald'])
+
+        subprocess.run(self.cmd_prefix + [
+            'systemctl', 'enable', 'thermald'
+        ])
+
     def install_vmware_workstation(self):
         """install VMware Workstation"""
         if not self.is_package_installed('vmware-workstation'):
