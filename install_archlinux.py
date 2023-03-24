@@ -31,6 +31,7 @@ arch_install.execute_method(arch_install.install_javascript_programming)
 arch_install.execute_method(arch_install.install_gnome_programming)
 arch_install.execute_method(arch_install.install_multimedia)
 arch_install.execute_method(arch_install.install_office)
+arch_install.execute_method(arch_install.install_games)
 arch_install.execute_method(
     arch_install.install_aur_packages_from_file,
     'packages_info/arch_linux/aur.txt'
