@@ -725,27 +725,20 @@ class ArchInstall:
         if not self.is_package_installed('git'):
             self.install_packages(['git'])
 
-        username = self.settings['username']
-        cmd_prefix = (['arch-chroot', '-u', f'{username}', '/mnt']
-                      if self.live_system
-                      else [])
-        custom_env = (dict(os.environ, HOME=f'/home/{username}')
-                      if self.live_system
-                      else None)
+        subprocess.run(
+            f'cp {self.working_dir}/resources/' +
+            '.gitconfig* ' +
+            f'{self.path_prefix}/{self.home_dir}',
+            shell=True
+        )
 
-        subprocess.run(cmd_prefix + [
-            'git', 'config', '--global', 'user.email',
-            f'{self.settings["user_email"]}'
-        ], env=custom_env)
+        if self.live_system:
+            username = self.settings['username']
 
-        subprocess.run(cmd_prefix + [
-            'git', 'config', '--global', 'user.name',
-            f'{self.settings["username"]}'
-        ], env=custom_env)
-
-        subprocess.run(cmd_prefix + [
-            'git', 'config', '--global', 'credential.helper', 'store'
-        ], env=custom_env)
+            subprocess.run(self.cmd_prefix + [
+                'chown', f'{username}:{username}',
+                f'/home/{username}/.gitconfig*'
+            ])
 
     def install_yay_aur_helper(self):
         """install Yay AUR helper"""
