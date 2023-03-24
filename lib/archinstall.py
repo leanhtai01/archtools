@@ -737,7 +737,7 @@ class ArchInstall:
 
             subprocess.run(self.cmd_prefix + [
                 'chown', f'{username}:{username}',
-                f'/home/{username}/.gitconfig*'
+                f'{self.path_prefix}/{self.home_dir}/.gitconfig*'
             ])
 
     def install_yay_aur_helper(self):
