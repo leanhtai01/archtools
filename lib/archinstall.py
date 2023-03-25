@@ -459,6 +459,8 @@ class ArchInstall:
             'gpasswd', '-a', f'{self.settings["username"]}', 'vboxusers'
         ])
 
+        self.install_aur_packages(['virtualbox-ext-oracle'])
+
     def systemctl_enable(self, unit: str):
         """enable unit using systemctl"""
         subprocess.run(self.cmd_prefix + [
