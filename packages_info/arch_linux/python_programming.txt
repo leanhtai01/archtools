@@ -11,3 +11,5 @@ python-docs
 autopep8
 python-requests
 python-beautifulsoup4
+python-pygame
+python-networkx
