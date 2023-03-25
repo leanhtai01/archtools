@@ -658,6 +658,11 @@ class ArchInstall:
                 'GNOME Terminal', '<Primary><Alt>t', 'gnome-terminal'
             )
 
+        if self.is_package_installed('krusader'):
+            self.add_gnome_shortcut(
+                'Emacs', '<Primary><Alt>k', 'krusader'
+            )
+
         if self.is_package_installed('emacs'):
             self.add_gnome_shortcut(
                 'Emacs', '<Primary><Alt>e', 'emacs'
