@@ -21,3 +21,4 @@ ufw
 ufw-extras
 filezilla
 texlive-most
+krusader
