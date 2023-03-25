@@ -721,6 +721,21 @@ class ArchInstall:
             shell=True
         )
 
+    def install_nvm(self):
+        """install nvm"""
+        self.install_aur_packages(['nvm'])
+        subprocess.run(
+            "echo 'source /usr/share/nvm/init-nvm.sh' >> " +
+            f"{self.path_prefix}/{self.home_dir}/.bashrc", shell=True)
+
+        if self.live_system:
+            username = self.settings['username']
+
+            subprocess.run(self.cmd_prefix + [
+                'chown', f'{username}:{username}',
+                f'{self.path_prefix}/{self.home_dir}/.bashrc'
+            ])
+
     def configure_git(self):
         """configure git"""
         # make sure git is installed before configure
