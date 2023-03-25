@@ -36,6 +36,7 @@ arch_install.execute_method(
     arch_install.install_aur_packages_from_file,
     'packages_info/arch_linux/aur.txt'
 )
+arch_install.execute_method(arch_install.install_nvm)
 arch_install.execute_method(arch_install.install_snapd)
 arch_install.execute_method(arch_install.install_input_method)
 arch_install.execute_method(arch_install.install_disc_image_tools)
