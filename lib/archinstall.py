@@ -738,7 +738,7 @@ class ArchInstall:
 
             subprocess.run(self.cmd_prefix + [
                 'chown', f'{username}:{username}',
-                f'{self.path_prefix}/{self.home_dir}/.bashrc'
+                f'/home/{username}/.bashrc'
             ])
 
     def configure_git(self):
