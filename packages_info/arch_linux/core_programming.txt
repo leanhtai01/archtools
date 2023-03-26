@@ -4,3 +4,4 @@ kdiff3
 valgrind
 umbrello
 kruler
+dbeaver
