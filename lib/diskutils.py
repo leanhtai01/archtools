@@ -204,17 +204,17 @@ def prepare_unencrypted_dual_boot_layout(
     swap_part_name = partition_prefix + swap_partnum
     root_part_name = partition_prefix + root_partnum
 
-    # calculate and make space for required partitions (the unit is MiB)
-    # -1024 here to make sure filesystem not damaged after shrunk
-    space_to_shrink = str(
-        int(boot_size[1:-1]) +
-        int(swap_size[1:-1]) * 1024 +
-        int(root_size[1:-1]) * 1024
-    )
-    msftdata_size = byte_to_mebibyte(get_size_in_byte(msftdata_part_name))
-    msftdata_new_fs_size = msftdata_size - int(space_to_shrink) - 1024
-    resize_ntfs_filesystem(msftdata_part_name, str(msftdata_new_fs_size))
-    shrink_partition(device, msftdata_partnum, space_to_shrink, 'MiB')
+    # # calculate and make space for required partitions (the unit is MiB)
+    # # -1024 here to make sure filesystem not damaged after shrunk
+    # space_to_shrink = str(
+    #     int(boot_size[1:-1]) +
+    #     int(swap_size[1:-1]) * 1024 +
+    #     int(root_size[1:-1]) * 1024
+    # )
+    # msftdata_size = byte_to_mebibyte(get_size_in_byte(msftdata_part_name))
+    # msftdata_new_fs_size = msftdata_size - int(space_to_shrink) - 1024
+    # resize_ntfs_filesystem(msftdata_part_name, str(msftdata_new_fs_size))
+    # shrink_partition(device, msftdata_partnum, space_to_shrink, 'MiB')
 
     create_partition(device, 'ea00', 'XBOOTLDR', boot_size)
     create_partition(device, '8200', 'swap', swap_size)
