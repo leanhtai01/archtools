@@ -6,12 +6,5 @@ gst-plugins-bad
 obs-studio
 inkscape
 gimp
-blender
 kdenlive
 frei0r-plugins
-handbrake
-handbrake-cli
-pencil2d
-audacity
-aegisub
-mkvtoolnix-gui

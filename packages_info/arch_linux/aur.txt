@@ -3,14 +3,9 @@ sublime-merge
 dislocker
 jetbrains-toolbox
 visual-studio-code-bin
-visual-studio-code-insiders-bin
 ventoy-bin
-minecraft-launcher
-logisim-evolution
 teams
 postman-bin
 neo4j-desktop
 nvm
-allure-commandline
 dropbox
-nautilus-dropbox
