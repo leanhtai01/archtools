@@ -1312,17 +1312,6 @@ class ArchInstall:
                 self.is_package_installed('gedit-plugins')):
             self.install_packages(['gedit', 'gedit-plugins'])
 
-        # set theme to gnome
-        if not (self.is_package_installed('gnome-builder')):
-            self.install_packages(
-                ['gnome-builder']
-            )
-        self.gnome_gsettings_set(
-            'org.gnome.gedit.preferences.editor',
-            'scheme',
-            'builder'
-        )
-
         # display right margin
         self.gnome_gsettings_set(
             'org.gnome.gedit.preferences.editor',
