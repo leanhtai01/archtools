@@ -5,7 +5,7 @@ from lib.archinstall import ArchInstall
 arch_install = ArchInstall('settings.json')
 
 arch_install.execute_method(arch_install.connect_to_wifi)
-time.sleep(10)
+time.sleep(60)
 arch_install.execute_method(arch_install.install_base_system)
 arch_install.execute_method(arch_install.install_intel_drivers)
 arch_install.execute_method(arch_install.install_other_packages)
