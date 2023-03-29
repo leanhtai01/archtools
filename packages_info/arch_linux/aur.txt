@@ -1,7 +1,6 @@
 google-chrome
 sublime-merge
 dislocker
-jetbrains-toolbox
 visual-studio-code-bin
 ventoy-bin
 teams
